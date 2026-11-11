@@ -1,9 +1,27 @@
-# Presentation Slides
+# Presentation Slides (Vite + React)
 
-Self-contained interactive StudyGarden poster for live talks.
+Interactive StudyGarden talk deck. Slides snap to exactly one viewport. Cozy flowers and vines are animated with Framer Motion. The last slide is the full summary poster.
 
-- `index.html` — open offline or via GitHub Pages
-- Last section: **full summary poster** (all 13 blocks + title/tagline)
-- `assets/studygarden-poster-source.png` — original poster reference
+## Develop
 
-See the root [README](../README.md) for presenting and Pages setup.
+```bash
+cd presentation-slides
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+npm run preview
+```
+
+## Present
+
+- **P** — Present / fullscreen
+- **← →** / **↑ ↓** — previous / next slide
+- **End** — summary poster
+- Each slide is exactly one screen tall
+
+GitHub Pages builds this folder via `.github/workflows/deploy-pages.yml`.

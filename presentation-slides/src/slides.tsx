@@ -1,0 +1,1014 @@
+import type { ReactNode } from 'react'
+import { motion } from 'framer-motion'
+import { CheckIcon, GardenDecor } from './components/GardenDecor'
+
+export type SlideDef = {
+  id: string
+  label: string
+  decor?: 'hero' | 'soft' | 'dense' | 'poster'
+  className?: string
+  content: ReactNode
+}
+
+const fade = {
+  initial: { opacity: 0, y: 14 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: false, amount: 0.4 },
+  transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] as const },
+}
+
+function Kicker({ n, label }: { n: string; label: string }) {
+  return (
+    <div className="section-kicker">
+      <span className="num">{n}</span>
+      {label}
+    </div>
+  )
+}
+
+function WhoDot({ who }: { who: 'lukas' | 'sophie' | 'both' }) {
+  if (who === 'both') {
+    return (
+      <span className="who-dots" aria-hidden="true">
+        <i className="dot o" />
+        <i className="dot p" />
+      </span>
+    )
+  }
+  return <i className={`dot ${who === 'lukas' ? 'o' : 'p'}`} aria-hidden="true" />
+}
+
+function Bars({
+  rows,
+  tone,
+}: {
+  rows: { label: string; value: number }[]
+  tone: 'orange' | 'lilac'
+}) {
+  return (
+    <div className="bars" aria-label="Bartle player-type mix">
+      {rows.map((row) => (
+        <div className="bar-row" key={row.label}>
+          <span>{row.label}</span>
+          <div className="bar-track">
+            <div className={`bar-fill ${tone}`} style={{ width: `${row.value}%` }} />
+          </div>
+          <strong>{row.value}</strong>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export const slides: SlideDef[] = [
+  {
+    id: 'hero',
+    label: 'Home',
+    decor: 'hero',
+    className: 'hero-slide',
+    content: (
+      <div className="hero-grid">
+        <motion.div className="hero-copy" {...fade}>
+          <p className="eyebrow">Gamified learning</p>
+          <h1>StudyGarden</h1>
+          <p className="hero-tagline">Grow your knowledge — one seed at a time.</p>
+          <p className="hero-support">
+            Studying becomes a garden. Small seeds keep students in flow, plants show real
+            progress, and friends grow a plot together.
+          </p>
+          <div className="hero-ctas">
+            <a className="btn btn-primary" href="#problem">
+              Start presenting
+            </a>
+            <a className="btn btn-secondary" href="#concept">
+              See the concept
+            </a>
+          </div>
+        </motion.div>
+        <motion.div
+          className="hero-visual"
+          {...fade}
+          transition={{ ...fade.transition, delay: 0.08 }}
+          aria-hidden="true"
+        >
+          <div className="garden-stage">
+            <div className="plant" style={{ left: '16%' }}>
+              <div className="stem" />
+              <span className="leaf l" />
+              <span className="leaf r" />
+            </div>
+            <div className="plant tall" style={{ left: '40%' }}>
+              <div className="stem" />
+              <span className="leaf l" />
+              <span className="leaf r" />
+              <span className="bloom" />
+            </div>
+            <div className="plant" style={{ left: '66%' }}>
+              <div className="stem" />
+              <span className="leaf l" />
+              <span className="leaf r" />
+              <span className="bloom lilac" />
+            </div>
+            <div className="soil" />
+            <div className="sign-post">
+              <div className="pole" />
+              <div className="board">Keep learning and grow.</div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    ),
+  },
+  {
+    id: 'problem',
+    label: 'Problem',
+    decor: 'soft',
+    className: 'soft',
+    content: (
+      <>
+        <Kicker n="1" label="Problem" />
+        <motion.h2 {...fade}>Students leave the flow channel</motion.h2>
+        <motion.p className="lede" {...fade}>
+          Studying either overwhelms them — “prepare for the statistics exam” — or bores them
+          with the same repetition. Both push them out of flow, so they procrastinate.
+        </motion.p>
+        <motion.div className="panel flow-wrap" {...fade}>
+          <div className="flow-chart" role="img" aria-label="Flow channel: challenge versus skill">
+            <svg viewBox="0 0 440 300">
+              <defs>
+                <linearGradient id="flowGrad" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#34c759" stopOpacity="0.16" />
+                  <stop offset="100%" stopColor="#34c759" stopOpacity="0.42" />
+                </linearGradient>
+              </defs>
+              <rect x="48" y="16" width="360" height="236" rx="18" fill="#fffdf8" stroke="rgba(139,107,69,0.18)" />
+              <line x1="70" y1="236" x2="390" y2="236" stroke="#c4b5a0" strokeWidth="1.5" />
+              <line x1="70" y1="236" x2="70" y2="36" stroke="#c4b5a0" strokeWidth="1.5" />
+              <text x="230" y="268" textAnchor="middle" fill="#6e6e73" fontSize="13">
+                Skill →
+              </text>
+              <text x="26" y="146" textAnchor="middle" fill="#6e6e73" fontSize="13" transform="rotate(-90 26 146)">
+                Challenge →
+              </text>
+              <path d="M70 36 L70 140 L190 36 Z" fill="rgba(255,149,0,0.16)" />
+              <path d="M250 236 L390 236 L390 120 Z" fill="rgba(175,82,222,0.12)" />
+              <path
+                d="M70 236 C 140 190, 220 140, 300 88 C 340 62, 370 48, 390 40 L390 100 C 340 128, 260 180, 180 214 C 130 232, 90 234, 70 236 Z"
+                fill="url(#flowGrad)"
+              />
+              <path
+                d="M80 226 C 140 180, 230 128, 320 78 C 350 62, 375 52, 385 46"
+                fill="none"
+                stroke="#34c759"
+                strokeWidth="3"
+                strokeLinecap="round"
+              />
+              <text x="100" y="72" fill="#c75b00" fontSize="12" fontWeight="700">
+                ANXIETY
+              </text>
+              <text x="292" y="210" fill="#8944ab" fontSize="12" fontWeight="700">
+                BOREDOM
+              </text>
+              <text x="178" y="156" fill="#248a3d" fontSize="13" fontWeight="700">
+                FLOW
+              </text>
+              <circle r="7" fill="#ff9500" stroke="#fff" strokeWidth="2">
+                <animateMotion
+                  dur="4.8s"
+                  repeatCount="indefinite"
+                  path="M 80 226 C 140 180, 230 128, 320 78 C 350 62, 375 52, 385 46"
+                />
+              </circle>
+            </svg>
+          </div>
+          <div className="flow-copy">
+            <p>
+              <WhoDot who="lukas" /> Challenge &gt; skill → anxiety. The exam feels huge, so they
+              never start.
+            </p>
+            <p>
+              <WhoDot who="sophie" /> Challenge &lt; skill → boredom. The same notes, so they quit
+              after a few days.
+            </p>
+            <p>
+              <i className="dot g" /> Challenge ≈ skill → flow. That is where StudyGarden holds them.
+            </p>
+          </div>
+        </motion.div>
+      </>
+    ),
+  },
+  {
+    id: 'goal',
+    label: 'Goal',
+    decor: 'soft',
+    className: 'alt',
+    content: (
+      <>
+        <Kicker n="2" label="Goal · target audience" />
+        <motion.h2 {...fade}>Keep students in the flow channel</motion.h2>
+        <motion.p className="lede" {...fade}>
+          Break overwhelming tasks into small, doable steps. Keep studying varied and fun, so
+          students start earlier and keep going.
+        </motion.p>
+        <motion.div className="grid-2" {...fade}>
+          <ul className="checklist">
+            <li>
+              <span className="check">
+                <CheckIcon />
+              </span>
+              Seeds small enough to finish today — against overwhelm.
+            </li>
+            <li>
+              <span className="check">
+                <CheckIcon />
+              </span>
+              New species and methods — against boredom.
+            </li>
+            <li>
+              <span className="check">
+                <CheckIcon />
+              </span>
+              Early starts and steady care, instead of last-minute cramming.
+            </li>
+          </ul>
+          <article className="panel audience">
+            <h3>Who it is for</h3>
+            <p>
+              Bachelor and master’s students who regularly study for exams and assignments, and
+              who already live on their phone.
+            </p>
+            <div className="legend">
+              <span>
+                <i className="dot o" /> Lukas · overwhelm
+              </span>
+              <span>
+                <i className="dot p" /> Sophie · boredom
+              </span>
+            </div>
+          </article>
+        </motion.div>
+      </>
+    ),
+  },
+  {
+    id: 'concept',
+    label: 'Concept',
+    decor: 'dense',
+    className: 'soft compact',
+    content: (
+      <>
+        <Kicker n="3" label="Concept" />
+        <motion.h2 {...fade}>Every module is a garden bed</motion.h2>
+        <motion.p className="lede" {...fade}>
+          Every topic is a plant, every study session is care. Big tasks split into seeds —
+          10–15 minute micro-tasks. Plants grow as you learn, and different methods grow different
+          species, so the garden never looks the same.
+        </motion.p>
+        <motion.div className="pipeline" {...fade}>
+          <div className="pipe-step">
+            <h3>Seeds</h3>
+            <p>10–15 min micro-tasks from a huge exam.</p>
+          </div>
+          <div className="arrow" aria-hidden="true">
+            →
+          </div>
+          <div className="pipe-step">
+            <h3>Care</h3>
+            <p>One short session waters the bed.</p>
+          </div>
+          <div className="arrow" aria-hidden="true">
+            →
+          </div>
+          <div className="pipe-step">
+            <h3>Grow</h3>
+            <p>Visible growth mirrors mastery.</p>
+          </div>
+        </motion.div>
+        <motion.div className="map-grid" {...fade}>
+          <span>
+            <strong>Bed</strong> module
+          </span>
+          <span>
+            <strong>Plant</strong> topic
+          </span>
+          <span>
+            <strong>Seed</strong> 10–15 min
+          </span>
+          <span>
+            <strong>Water</strong> one session
+          </span>
+          <span>
+            <strong>Moss</strong> flashcards
+          </span>
+          <span>
+            <strong>Fern</strong> summary
+          </span>
+          <span>
+            <strong>Flower</strong> quiz
+          </span>
+          <span>
+            <strong>Rare</strong> linked topics
+          </span>
+          <span>
+            <strong>Cutting</strong> help a beginner
+          </span>
+          <span>
+            <strong>Shared bed</strong> study group
+          </span>
+        </motion.div>
+        <p className="footnote">
+          Unlike Forest, which only rewards putting the phone away, StudyGarden structures the
+          studying itself — seeds against overwhelm, variety against boredom.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: 'lukas',
+    label: 'Lukas',
+    decor: 'soft',
+    className: 'alt compact',
+    content: (
+      <>
+        <Kicker n="4" label="Persona · the procrastinator" />
+        <div className="persona-layout">
+          <motion.div {...fade}>
+            <div className="who-head">
+              <div className="avatar lukas">L</div>
+              <div>
+                <h2>Lukas Becker</h2>
+                <p className="role">
+                  <WhoDot who="lukas" /> Overwhelm · Achiever · Mastery
+                </p>
+              </div>
+            </div>
+            <ul className="facts">
+              <li>22 · Business Administration, 5th semester</li>
+              <li>Stuttgart, shared flat · 12 h/week side job</li>
+              <li>Phone 5+ hours · Clash Royale · Strava stats</li>
+            </ul>
+            <Bars
+              tone="orange"
+              rows={[
+                { label: 'Achiever', value: 80 },
+                { label: 'Explorer', value: 40 },
+                { label: 'Socializer', value: 33 },
+                { label: 'Killer', value: 20 },
+              ]}
+            />
+          </motion.div>
+          <motion.article className="panel persona-story" {...fade}>
+            <p>
+              Smart, but he opens 400 statistics slides, closes the laptop, and watches YouTube.
+              Two weeks before the exam he panics and pulls all-nighters.
+            </p>
+            <p>
+              <strong>Stuck on</strong> not knowing where to begin, then guilt that makes starting
+              even harder.
+            </p>
+            <p>
+              <strong>Needs</strong> small seeds, visible growth, and one clear next step.
+            </p>
+            <p>
+              <strong>Fears</strong> failing an exam and repeating the semester.
+            </p>
+            <p className="thread">
+              Overwhelm → Achiever → Mastery → seeds and growth → “I actually started.”
+            </p>
+          </motion.article>
+        </div>
+      </>
+    ),
+  },
+  {
+    id: 'sophie',
+    label: 'Sophie',
+    decor: 'dense',
+    className: 'soft compact',
+    content: (
+      <>
+        <Kicker n="5" label="Persona · the bored one" />
+        <div className="persona-layout">
+          <motion.div {...fade}>
+            <div className="who-head">
+              <div className="avatar sophie">S</div>
+              <div>
+                <h2>Sophie Wagner</h2>
+                <p className="role">
+                  <WhoDot who="sophie" /> Boredom · Socializer / Explorer
+                </p>
+              </div>
+            </div>
+            <ul className="facts">
+              <li>24 · Psychology, 1st master’s semester</li>
+              <li>Karlsruhe, lives alone · bouldering, board games</li>
+              <li>Duolingo, Pinterest, Notion, WhatsApp groups</li>
+            </ul>
+            <Bars
+              tone="lilac"
+              rows={[
+                { label: 'Socializer', value: 87 },
+                { label: 'Explorer', value: 67 },
+                { label: 'Achiever', value: 33 },
+                { label: 'Killer', value: 7 },
+              ]}
+            />
+          </motion.div>
+          <motion.article className="panel persona-story" {...fade}>
+            <p>
+              She starts every semester with a colourful plan. After a few days of re-reading the
+              same notes she drifts to Instagram. She studies best with friends, but her old group
+              moved away.
+            </p>
+            <p>
+              <strong>Stuck on</strong> monotony, and studying alone without accountability.
+            </p>
+            <p>
+              <strong>Needs</strong> new species, seasonal surprises, and a community garden.
+            </p>
+            <p>
+              <strong>Fears</strong> feeling alone with her studies and losing interest in the subject.
+            </p>
+            <p className="thread lilac">
+              Boredom → Socializer / Explorer → curiosity and relatedness → “I helped someone grow.”
+            </p>
+          </motion.article>
+        </div>
+      </>
+    ),
+  },
+  {
+    id: 'motivators',
+    label: 'Motivators',
+    decor: 'soft',
+    className: 'alt compact',
+    content: (
+      <>
+        <Kicker n="6" label="Motivators" />
+        <motion.h2 {...fade}>Color follows the person it is for</motion.h2>
+        <motion.p className="lede" {...fade}>
+          Orange is Lukas and overwhelm. Lilac is Sophie and boredom. Global motives sit next to
+          the persona they serve.
+        </motion.p>
+        <motion.div className="motivator-cols" {...fade}>
+          <div className="motivator intrinsic panel">
+            <h3>Intrinsic</h3>
+            <ul>
+              <li>
+                <WhoDot who="lukas" /> Mastery — improve study skills and see real progress
+              </li>
+              <li>
+                <WhoDot who="both" /> Autonomy — choose plants, methods, and pace
+              </li>
+              <li>
+                <WhoDot who="sophie" /> Curiosity — discover new species and study methods
+              </li>
+              <li>
+                <WhoDot who="sophie" /> Purpose — help beginners and grow together
+              </li>
+            </ul>
+          </div>
+          <div className="motivator extrinsic panel">
+            <h3>Extrinsic</h3>
+            <ul>
+              <li>
+                <WhoDot who="both" /> Collect rare plants and decorations
+              </li>
+              <li>
+                <WhoDot who="sophie" /> Recognition inside the community garden
+              </li>
+              <li>
+                <WhoDot who="lukas" /> Gardener rank: Seed → Gardener → Botanist
+              </li>
+            </ul>
+          </div>
+        </motion.div>
+      </>
+    ),
+  },
+  {
+    id: 'fun',
+    label: 'Fun',
+    decor: 'dense',
+    className: 'soft',
+    content: (
+      <>
+        <Kicker n="7" label="Fun" />
+        <motion.h2 {...fade}>A garden that grew because of you</motion.h2>
+        <motion.p className="lede" {...fade}>
+          Fun in StudyGarden is looking at your garden after a week and seeing that it grew
+          because of you.
+        </motion.p>
+        <motion.div className="grid-3" {...fade}>
+          <article className="fun-card">
+            <div className="pot orange" aria-hidden="true" />
+            <h3>
+              <WhoDot who="lukas" /> Growing
+            </h3>
+            <p>Watch your own garden come alive after each session.</p>
+          </article>
+          <article className="fun-card">
+            <div className="pot lilac" aria-hidden="true" />
+            <h3>
+              <WhoDot who="sophie" /> Discovering
+            </h3>
+            <p>Rare plants and seasonal surprises keep the plot new.</p>
+          </article>
+          <article className="fun-card">
+            <div className="pot gold" aria-hidden="true" />
+            <h3>
+              <WhoDot who="sophie" /> Together
+            </h3>
+            <p>A shared garden with friends, not a scoreboard.</p>
+          </article>
+        </motion.div>
+      </>
+    ),
+  },
+  {
+    id: 'journey',
+    label: 'Journey',
+    decor: 'soft',
+    className: 'alt compact',
+    content: (
+      <>
+        <Kicker n="8" label="Player journey" />
+        <motion.h2 {...fade}>Onboarding, habit, then elder</motion.h2>
+        <motion.p className="lede" {...fade}>
+          Difficulty grows with the student so they stay in flow. A break does not kill the garden.
+        </motion.p>
+        <motion.div className="journey" {...fade}>
+          <article className="stage">
+            <span className="stage-badge orange">Seed · balcony box</span>
+            <h3>Onboarding</h3>
+            <ul>
+              <li>Plant the first module in a short tutorial</li>
+              <li>AI splits the first big task into seeds</li>
+              <li>One 10-minute seed → first sprout</li>
+              <li>Choose a first species</li>
+            </ul>
+            <p className="aim">
+              <WhoDot who="lukas" /> Success in the first 5 minutes
+            </p>
+          </article>
+          <article className="stage">
+            <span className="stage-badge lilac">Gardener · own garden</span>
+            <h3>Habit building</h3>
+            <ul>
+              <li>Weekly rhythm, not daily pressure</li>
+              <li>New species by trying new methods</li>
+              <li>Bigger plants need longer seeds</li>
+              <li>Join or create a community garden</li>
+            </ul>
+            <p className="aim">
+              <WhoDot who="sophie" /> Routine plus variety
+            </p>
+          </article>
+          <article className="stage">
+            <span className="stage-badge">Botanist · botanical garden</span>
+            <h3>Elder</h3>
+            <ul>
+              <li>Rare plants by linking topics</li>
+              <li>Gift cuttings: tips, summaries, mentoring</li>
+              <li>Lead a garden before an exam</li>
+              <li>Seasonal events in exam phases</li>
+            </ul>
+            <p className="aim">Mastery and purpose, long term</p>
+          </article>
+        </motion.div>
+        <p className="footnote">
+          After a break the garden is resting, not dying. One seed wakes it. A new semester is a
+          new season: new beds, new species.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: 'loop',
+    label: 'Loop',
+    decor: 'dense',
+    className: 'soft compact',
+    content: (
+      <>
+        <Kicker n="9" label="Engagement loop" />
+        <motion.h2 {...fade}>The same circle, twice</motion.h2>
+        <motion.p className="lede" {...fade}>
+          Call to action, a small action, visible progress, a good feeling — then the next reason
+          to come back.
+        </motion.p>
+        <motion.div className="loop-cols" {...fade}>
+          <article className="panel loop-card orange">
+            <h3>Seed · beginner</h3>
+            <ol>
+              <li>
+                <strong>Call</strong> Plant your first module and get your first seed
+              </li>
+              <li>
+                <strong>Action</strong> Finish one 10-minute seed
+              </li>
+              <li>
+                <strong>Progress</strong> Your first sprout appears
+              </li>
+              <li>
+                <strong>Feeling</strong> Pride — “I actually started!”
+              </li>
+            </ol>
+          </article>
+          <article className="panel loop-card lilac">
+            <h3>Botanist · expert</h3>
+            <ol>
+              <li>
+                <strong>Call</strong> The study group’s garden needs care before the exam
+              </li>
+              <li>
+                <strong>Action</strong> Grow a rare plant or gift a cutting
+              </li>
+              <li>
+                <strong>Progress</strong> Rare species and Botanist rank
+              </li>
+              <li>
+                <strong>Feeling</strong> Purpose — “I helped someone grow.”
+              </li>
+            </ol>
+          </article>
+        </motion.div>
+      </>
+    ),
+  },
+  {
+    id: 'mechanics',
+    label: 'Mechanics',
+    decor: 'soft',
+    className: 'alt compact',
+    content: (
+      <>
+        <Kicker n="10" label="Mechanics → dynamics → activities" />
+        <motion.h2 {...fade}>Each mechanic answers one problem</motion.h2>
+        <motion.div className="panel table-wrap" {...fade}>
+          <table className="mech-table">
+            <thead>
+              <tr>
+                <th>Mechanic</th>
+                <th>Dynamic</th>
+                <th>Activity</th>
+                <th>For</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Seeds</td>
+                <td>Small wins, no overwhelm</td>
+                <td>Split a task, finish one 10-min seed</td>
+                <td>
+                  <WhoDot who="lukas" /> Mastery
+                </td>
+              </tr>
+              <tr>
+                <td>Growth stages</td>
+                <td>Visible progress</td>
+                <td>Watch seed → sprout → bloom</td>
+                <td>
+                  <WhoDot who="lukas" /> Mastery
+                </td>
+              </tr>
+              <tr>
+                <td>Adaptive difficulty</td>
+                <td>Challenge grows with skill</td>
+                <td>Bigger plants need longer seeds</td>
+                <td>
+                  <WhoDot who="both" /> Mastery
+                </td>
+              </tr>
+              <tr>
+                <td>Species per method</td>
+                <td>Curiosity and variety</td>
+                <td>Flashcards, quizzes, summaries</td>
+                <td>
+                  <WhoDot who="sophie" /> Autonomy
+                </td>
+              </tr>
+              <tr>
+                <td>Rare plants</td>
+                <td>Discovery</td>
+                <td>Connect topics or finish a study week</td>
+                <td>
+                  <WhoDot who="sophie" /> Curiosity
+                </td>
+              </tr>
+              <tr>
+                <td>Seasonal events</td>
+                <td>Novelty over time</td>
+                <td>Exam season, new-semester season</td>
+                <td>
+                  <WhoDot who="sophie" /> Curiosity
+                </td>
+              </tr>
+              <tr>
+                <td>Community garden</td>
+                <td>Social commitment</td>
+                <td>Grow a shared bed with the group</td>
+                <td>
+                  <WhoDot who="sophie" /> Relatedness
+                </td>
+              </tr>
+              <tr>
+                <td>Gifting cuttings</td>
+                <td>Purpose, recognition</td>
+                <td>Share summaries, mentor beginners</td>
+                <td>
+                  <WhoDot who="sophie" /> Purpose
+                </td>
+              </tr>
+              <tr>
+                <td>Gardener rank</td>
+                <td>A long-term goal</td>
+                <td>Seed → Gardener → Botanist</td>
+                <td>
+                  <WhoDot who="lukas" /> Mastery
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </motion.div>
+        <p className="footnote">Left out on purpose: punishing daily streaks, and rankings by study time.</p>
+      </>
+    ),
+  },
+  {
+    id: 'tech',
+    label: 'Tech',
+    decor: 'soft',
+    className: 'soft compact',
+    content: (
+      <>
+        <Kicker n="11" label="Technologies" />
+        <motion.h2 {...fade}>Each tool holds up a mechanic</motion.h2>
+        <motion.ul className="checklist tech-list" {...fade}>
+          <li>
+            <span className="check">
+              <CheckIcon />
+            </span>
+            <span>
+              <strong>Phone app + home-screen widget → engagement loop.</strong> The garden is one
+              tap away.
+            </span>
+          </li>
+          <li>
+            <span className="check">
+              <CheckIcon />
+            </span>
+            <span>
+              <strong>AI Seed Assistant → seeds.</strong> Turns “prepare the statistics exam” into
+              10-minute seeds from the slides and the exam date.
+            </span>
+          </li>
+          <li>
+            <span className="check">
+              <CheckIcon />
+            </span>
+            <span>
+              <strong>Adaptive difficulty → plant size.</strong> It watches how fast seeds finish
+              and keeps challenge near skill.
+            </span>
+          </li>
+          <li>
+            <span className="check">
+              <CheckIcon />
+            </span>
+            <span>
+              <strong>LMS and calendar → beds.</strong> Moodle or ILIAS, plus Google or Outlook, so
+              modules and exam dates appear on their own.
+            </span>
+          </li>
+          <li>
+            <span className="check">
+              <CheckIcon />
+            </span>
+            <span>
+              <strong>Optional AR → seasonal beds.</strong> Later, see the garden on your desk
+              through the camera.
+            </span>
+          </li>
+        </motion.ul>
+      </>
+    ),
+  },
+  {
+    id: 'ethics',
+    label: 'Ethics',
+    decor: 'dense',
+    className: 'alt compact',
+    content: (
+      <>
+        <Kicker n="12" label="Ethics" />
+        <motion.h2 {...fade}>Care without punishment</motion.h2>
+        <motion.div className="ethics-grid" {...fade}>
+          <article className="panel">
+            <h3>Wellbeing</h3>
+            <p>
+              Streaks and lost progress create guilt. Plants never die — they rest. Illness and
+              exam weeks are not punished. One seed wakes the garden.
+            </p>
+          </article>
+          <article className="panel">
+            <h3>Fairness</h3>
+            <p>
+              Study-time leaderboards reward free time, not side jobs or care duties. Progress is
+              compared only with your past self. Community gardens collaborate.
+            </p>
+          </article>
+          <article className="panel">
+            <h3>Academic integrity</h3>
+            <p>
+              The AI Seed Assistant structures and explains. It never writes graded work. It plans
+              seeds and asks questions instead of giving answers.
+            </p>
+          </article>
+          <article className="panel">
+            <h3>Privacy</h3>
+            <p>
+              Learning data stays with the student. It is never shared with lecturers or the
+              university, it is GDPR-compliant, and it can be deleted.
+            </p>
+          </article>
+          <article className="panel ethics-wide">
+            <h3>Healthy use</h3>
+            <p>
+              No endless notifications. Students choose reminder times, and the app suggests a
+              break after a long session.
+            </p>
+          </article>
+        </motion.div>
+      </>
+    ),
+  },
+  {
+    id: 'theory',
+    label: 'Theory',
+    decor: 'soft',
+    className: 'soft compact',
+    content: (
+      <>
+        <Kicker n="13" label="Theoretical foundations" />
+        <motion.h2 {...fade}>Five sources, each tied to a block</motion.h2>
+        <motion.ul className="theory-list" {...fade}>
+          <li>
+            <strong>Csikszentmihalyi (1990), Flow</strong>
+            <span>Problem and adaptive difficulty — anxiety versus boredom.</span>
+          </li>
+          <li>
+            <strong>Ryan &amp; Deci (2000)</strong>
+            <span>Motivators: intrinsic and extrinsic, autonomy, competence, relatedness.</span>
+          </li>
+          <li>
+            <strong>Pink (2009), Drive</strong>
+            <span>The global motives autonomy, mastery, and purpose.</span>
+          </li>
+          <li>
+            <strong>Player types (Bartle)</strong>
+            <span>Personas: Achiever versus Socializer and Explorer.</span>
+          </li>
+          <li>
+            <strong>Key challenges and barriers in gamification</strong>
+            <span>Ethics: pressure, streaks, and rankings.</span>
+          </li>
+        </motion.ul>
+        <p className="footnote">The printed poster carries a QR code for each source.</p>
+      </>
+    ),
+  },
+  {
+    id: 'poster',
+    label: 'Poster',
+    decor: 'poster',
+    className: 'poster-slide',
+    content: (
+      <div className="poster-board" role="region" aria-label="StudyGarden summary poster">
+        <header className="poster-header">
+          <div>
+            <p className="eyebrow">Summary poster</p>
+            <h2>StudyGarden</h2>
+            <p>Grow your knowledge — one seed at a time.</p>
+          </div>
+          <div className="legend tight">
+            <span>
+              <i className="dot o" /> Lukas · overwhelm
+            </span>
+            <span>
+              <i className="dot p" /> Sophie · boredom
+            </span>
+          </div>
+        </header>
+        <div className="poster-grid">
+          <article className="poster-cell wide">
+            <h3>
+              <span className="pc-num">1</span> Problem
+            </h3>
+            <p>
+              Overwhelm (challenge &gt; skill) or boredom (challenge &lt; skill) pushes students out
+              of flow. They procrastinate.
+            </p>
+          </article>
+          <article className="poster-cell">
+            <h3>
+              <span className="pc-num">2</span> Goal
+            </h3>
+            <p>Small steps, variety, earlier starts. For bachelor and master’s students on their phones.</p>
+          </article>
+          <article className="poster-cell">
+            <h3>
+              <span className="pc-num">3</span> Concept
+            </h3>
+            <p>Bed = module, plant = topic, seed = 10–15 min. Moss, fern, flower. Not Forest.</p>
+          </article>
+          <article className="poster-cell">
+            <h3>
+              <span className="pc-num">4</span> Lukas
+            </h3>
+            <p>22, B.Sc. BWL, Achiever 80. Needs seeds, visible growth, a next step.</p>
+          </article>
+          <article className="poster-cell">
+            <h3>
+              <span className="pc-num">5</span> Sophie
+            </h3>
+            <p>24, M.Sc. Psychology, Socializer 87. Needs species, seasons, a community garden.</p>
+          </article>
+          <article className="poster-cell wide">
+            <h3>
+              <span className="pc-num">6–7</span> Motivators · fun
+            </h3>
+            <p>
+              Mastery, autonomy, curiosity, purpose · rares, recognition, rank. Fun is a garden that
+              grew because of you: growing, discovering, together.
+            </p>
+          </article>
+          <article className="poster-cell wide">
+            <h3>
+              <span className="pc-num">8</span> Journey
+            </h3>
+            <p>Seed (5 min win) → Gardener (weekly, not daily) → Botanist (rares, cuttings, seasons). Rest, never die.</p>
+          </article>
+          <article className="poster-cell wide">
+            <h3>
+              <span className="pc-num">9</span> Loop
+            </h3>
+            <p>Beginner: first seed → sprout → “I actually started.” Expert: rare plant or cutting → “I helped someone grow.”</p>
+          </article>
+          <article className="poster-cell wide">
+            <h3>
+              <span className="pc-num">10</span> Mechanics
+            </h3>
+            <p>Seeds, stages, adaptive difficulty, species, rares, seasons, community, cuttings, rank. No punishing streaks.</p>
+          </article>
+          <article className="poster-cell">
+            <h3>
+              <span className="pc-num">11</span> Tech
+            </h3>
+            <p>Widget, AI seeds, adaptive difficulty, Moodle/ILIAS + calendar, optional AR.</p>
+          </article>
+          <article className="poster-cell">
+            <h3>
+              <span className="pc-num">12</span> Ethics
+            </h3>
+            <p>Plants rest. No study-time boards. AI never writes graded work. Private, deletable data. Chosen reminders.</p>
+          </article>
+          <article className="poster-cell wide">
+            <h3>
+              <span className="pc-num">13</span> Theory
+            </h3>
+            <p>Flow (1990) · Ryan &amp; Deci (2000) · Pink, Drive (2009) · Bartle · barriers in gamification. QR on the print.</p>
+          </article>
+        </div>
+        <div className="poster-footer-bar">
+          <span>
+            <strong>Lukas</strong> overwhelm → mastery → seeds → “I actually started.”
+          </span>
+          <span>
+            <strong>Sophie</strong> boredom → curiosity → community → “I helped someone grow.”
+          </span>
+        </div>
+      </div>
+    ),
+  },
+]
+
+export function SlideShell({
+  slide,
+  children,
+}: {
+  slide: SlideDef
+  children: ReactNode
+}) {
+  return (
+    <section
+      className={`slide ${slide.className ?? ''}`}
+      id={slide.id}
+      data-section={slide.id}
+      data-label={slide.label}
+    >
+      <GardenDecor variant={slide.decor ?? 'soft'} />
+      <div className="slide-inner">{children}</div>
+    </section>
+  )
+}
