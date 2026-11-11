@@ -20,24 +20,45 @@ export function GreenhouseBackdrop({
   )
 }
 
-export function LivingPlants({ hidden }: { hidden?: boolean }) {
+export function LivingPlants({
+  shiftRef,
+}: {
+  shiftRef: RefObject<HTMLDivElement | null>
+}) {
   return (
-    <div className={`living-plants ${hidden ? 'is-hidden' : ''}`} aria-hidden="true">
-      <span className="cut vine left">
-        <img src={src('plant-vine.png')} alt="" />
-      </span>
-      <span className="cut vine right">
-        <img src={src('plant-vine.png')} alt="" />
-      </span>
-      <span className="cut fern">
-        <img src={src('plant-corner.png')} alt="" />
-      </span>
-      <span className="cut corner">
-        <img src={src('plant-corner.png')} alt="" />
-      </span>
-      <span className="cut sprig">
-        <img src={src('plant-corner.png')} alt="" />
-      </span>
+    <div className="vine-frame" aria-hidden="true">
+      <div className="vine-shift" ref={shiftRef}>
+        <span className="cut vine left a">
+          <img src={src('plant-vine.png')} alt="" />
+        </span>
+        <span className="cut vine left b">
+          <img src={src('plant-vine.png')} alt="" />
+        </span>
+        <span className="cut vine right a">
+          <img src={src('plant-vine.png')} alt="" />
+        </span>
+        <span className="cut vine right b">
+          <img src={src('plant-vine.png')} alt="" />
+        </span>
+        <span className="cut vine top">
+          <img src={src('plant-vine.png')} alt="" />
+        </span>
+        <span className="cut vine right c">
+          <img src={src('plant-vine.png')} alt="" />
+        </span>
+          <span className="cut vine left c">
+          <img src={src('plant-vine.png')} alt="" />
+        </span>
+          <span className="cut vine left d">
+          <img src={src('plant-vine.png')} alt="" />
+        </span>
+        <span className="cut leaf tl">
+          <img src={src('plant-corner.png')} alt="" />
+        </span>
+        <span className="cut leaf br">
+          <img src={src('plant-corner.png')} alt="" />
+        </span>
+      </div>
     </div>
   )
 }

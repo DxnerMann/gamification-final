@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react'
-import { motion } from 'framer-motion'
-import { CheckIcon, PosterPlants } from './components/GardenDecor'
+import { useEffect, useRef, type ReactNode } from 'react'
+import { MotionConfig, motion } from 'framer-motion'
+import { CheckIcon } from './components/GardenDecor'
 
 export type SlideDef = {
   id: string
@@ -22,6 +22,39 @@ function Kicker({ n, label }: { n: string; label: string }) {
     <div className="section-kicker">
       <span className="num">{n}</span>
       {label}
+    </div>
+  )
+}
+
+function GardenPot({ kind }: { kind: 'grow' | 'discover' | 'together' }) {
+  return (
+    <div className={`pot-plant ${kind}`} aria-hidden="true">
+      {kind === 'grow' && (
+        <>
+          <span className="stem" />
+          <span className="leaf l" />
+          <span className="leaf r" />
+          <span className="leaf top" />
+        </>
+      )}
+      {kind === 'discover' && (
+        <>
+          <span className="stem" />
+          <span className="leaf l" />
+          <span className="leaf r" />
+          <span className="bloom" />
+        </>
+      )}
+      {kind === 'together' && (
+        <>
+          <span className="stem a" />
+          <span className="stem b" />
+          <span className="leaf a" />
+          <span className="leaf b" />
+          <span className="leaf c" />
+        </>
+      )}
+      <span className="clay" />
     </div>
   )
 }
@@ -60,7 +93,105 @@ function Bars({
   )
 }
 
-export const slides: SlideDef[] = [
+const posterMeta: Record<string, { n: string; label: string; col: string; row: number }> = {
+  problem: { n: '1', label: 'Problem', col: '1 / span 6', row: 1 },
+  goal: { n: '2', label: 'Goal', col: '7 / span 6', row: 1 },
+  personas: { n: '4', label: 'Personas', col: '1 / span 8', row: 2 },
+  motivators: { n: '5', label: 'Motivators', col: '9 / span 4', row: 2 },
+  concept: { n: '3', label: 'Concept', col: '1 / span 8', row: 3 },
+  fun: { n: '6', label: 'Fun', col: '9 / span 4', row: 3 },
+  journey: { n: '7', label: 'Journey', col: '1 / span 8', row: 4 },
+  loop: { n: '8', label: 'Loop', col: '9 / span 4', row: 4 },
+  mechanics: { n: '9', label: 'Mechanics', col: '1 / span 8', row: 5 },
+  tech: { n: '10', label: 'Tech', col: '9 / span 4', row: 5 },
+  ethics: { n: '11', label: 'Ethics', col: '1 / span 7', row: 6 },
+  theory: { n: '12', label: 'Theory', col: '8 / span 5', row: 6 },
+}
+
+function PosterBlock({
+  meta,
+  children,
+}: {
+  meta: { n: string; label: string; col: string; row: number }
+  children: ReactNode
+}) {
+  const fitRef = useRef<HTMLDivElement>(null)
+  const bodyRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const fitBox = fitRef.current
+    const body = bodyRef.current
+    if (!fitBox || !body) return
+
+    const fit = () => {
+      const available = fitBox.clientHeight
+      if (available < 8) return
+      body.style.transform = 'none'
+      body.style.width = '100%'
+      const natural = body.scrollHeight
+      if (natural < 8) return
+      let scale = Math.min(1, (available - 1) / natural)
+      if (scale >= 0.995) {
+        body.style.transform = 'none'
+        body.style.width = '100%'
+        return
+      }
+      for (let i = 0; i < 5; i += 1) {
+        body.style.width = `${100 / scale}%`
+        body.style.transform = `scale(${scale})`
+        const visual = body.scrollHeight * scale
+        if (visual <= available - 1) return
+        scale *= (available - 1) / visual
+      }
+      body.style.width = `${100 / scale}%`
+      body.style.transform = `scale(${scale})`
+      const visual = body.scrollHeight * scale
+      if (visual > available - 1) {
+        body.style.transform = 'none'
+        body.style.width = '100%'
+        const safe = Math.min(1, (available - 1) / body.scrollHeight)
+        body.style.transform = safe < 0.995 ? `scale(${safe})` : 'none'
+      }
+    }
+
+    fit()
+    const observer = new ResizeObserver(fit)
+    observer.observe(fitBox)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <article className="poster-block" style={{ gridColumn: meta.col, gridRow: meta.row }}>
+      <header className="poster-kicker">
+        <span className="poster-num">{meta.n}</span>
+        <span className="poster-label">{meta.label}</span>
+      </header>
+      <div className="poster-fit" ref={fitRef}>
+        <div className="poster-body" ref={bodyRef}>
+          {children}
+        </div>
+      </div>
+    </article>
+  )
+}
+
+function SlideOverview({ items }: { items: SlideDef[] }) {
+  return (
+    <MotionConfig reducedMotion="always">
+      <div className="overview-grid" aria-label="Everything on one page">
+        {items
+          .filter((slide) => slide.id !== 'hero')
+          .map((slide) => (
+            <PosterBlock key={slide.id} meta={posterMeta[slide.id]}>
+              {slide.content}
+            </PosterBlock>
+          ))}
+      </div>
+    </MotionConfig>
+  )
+}
+
+const deckSlides: SlideDef[] = [
   {
     id: 'hero',
     label: 'Home',
@@ -473,21 +604,21 @@ export const slides: SlideDef[] = [
         </motion.p>
         <motion.div className="grid-3" {...fade}>
           <article className="fun-card">
-            <div className="pot orange" aria-hidden="true" />
+            <GardenPot kind="grow" />
             <h3>
               <WhoDot who="lukas" /> Growing
             </h3>
             <p>Watch your own garden come alive after each session.</p>
           </article>
           <article className="fun-card">
-            <div className="pot lilac" aria-hidden="true" />
+            <GardenPot kind="discover" />
             <h3>
               <WhoDot who="sophie" /> Discovering
             </h3>
             <p>Rare plants and seasonal surprises keep the plot new.</p>
           </article>
           <article className="fun-card">
-            <div className="pot gold" aria-hidden="true" />
+            <GardenPot kind="together" />
             <h3>
               <WhoDot who="sophie" /> Together
             </h3>
@@ -849,111 +980,16 @@ export const slides: SlideDef[] = [
       </>
     ),
   },
+]
+
+export const slides: SlideDef[] = [
+  ...deckSlides,
   {
-    id: 'poster',
-    label: 'Poster',
+    id: 'overview',
+    label: 'Overview',
     decor: 'poster',
     className: 'poster-slide',
-    content: (
-      <div className="poster-board" role="region" aria-label="StudyGarden summary poster">
-        <PosterPlants />
-        <header className="poster-header">
-          <div>
-            <p className="eyebrow">Summary poster</p>
-            <h2>StudyGarden</h2>
-            <p>Grow your knowledge — one seed at a time.</p>
-          </div>
-          <div className="legend tight">
-            <span>
-              <i className="dot o" /> Lukas · overwhelm
-            </span>
-            <span>
-              <i className="dot p" /> Sophie · boredom
-            </span>
-          </div>
-        </header>
-        <div className="poster-grid">
-          <article className="poster-cell wide">
-            <h3>
-              <span className="pc-num">1</span> Problem
-            </h3>
-            <p>
-              Overwhelm (challenge &gt; skill) or boredom (challenge &lt; skill) pushes students out
-              of flow. They procrastinate.
-            </p>
-          </article>
-          <article className="poster-cell">
-            <h3>
-              <span className="pc-num">2</span> Goal
-            </h3>
-            <p>Small steps, variety, earlier starts. For bachelor and master’s students on their phones.</p>
-          </article>
-          <article className="poster-cell">
-            <h3>
-              <span className="pc-num">3</span> Concept
-            </h3>
-            <p>Bed = module, plant = topic, seed = 10–15 min. Moss, fern, flower. Not Forest.</p>
-          </article>
-          <article className="poster-cell">
-            <h3>
-              <span className="pc-num">4</span> Lukas
-            </h3>
-            <p>22, B.Sc. BWL, Achiever 80. Needs seeds, visible growth, a next step.</p>
-          </article>
-          <article className="poster-cell">
-            <h3>
-              <span className="pc-num">5</span> Sophie
-            </h3>
-            <p>24, M.Sc. Psychology, Socializer 87. Needs species, seasons, a community garden.</p>
-          </article>
-          <article className="poster-cell wide">
-            <h3>
-              <span className="pc-num">6–7</span> Motivators · fun
-            </h3>
-            <p>
-              Mastery, autonomy, curiosity, purpose · rares, recognition, rank. Fun is a garden that
-              grew because of you: growing, discovering, together.
-            </p>
-          </article>
-          <article className="poster-cell wide">
-            <h3>
-              <span className="pc-num">8</span> Journey
-            </h3>
-            <p>Seed (5 min win) → Gardener (weekly, not daily) → Botanist (rares, cuttings, seasons). Rest, never die.</p>
-          </article>
-          <article className="poster-cell wide">
-            <h3>
-              <span className="pc-num">9</span> Loop
-            </h3>
-            <p>Beginner: first seed → sprout → “I actually started.” Expert: rare plant or cutting → “I helped someone grow.”</p>
-          </article>
-          <article className="poster-cell wide">
-            <h3>
-              <span className="pc-num">10</span> Mechanics
-            </h3>
-            <p>Seeds, stages, adaptive difficulty, species, rares, seasons, community, cuttings, rank. No punishing streaks.</p>
-          </article>
-          <article className="poster-cell">
-            <h3>
-              <span className="pc-num">11</span> Tech
-            </h3>
-            <p>Widget, AI seeds, adaptive difficulty, Moodle/ILIAS + calendar, optional AR.</p>
-          </article>
-          <article className="poster-cell">
-            <h3>
-              <span className="pc-num">12</span> Ethics
-            </h3>
-            <p>Plants rest. No study-time boards. AI never writes graded work. Private, deletable data. Chosen reminders.</p>
-          </article>
-        </div>
-        <div className="poster-footer-bar">
-          <span>Flow · Ryan &amp; Deci · Pink · Bartle · barriers in gamification</span>
-          <span>
-            <strong>Lukas</strong> “I actually started.” · <strong>Sophie</strong> “I helped someone grow.”
-          </span>
-        </div>
-      </div>
-    ),
+    content: <SlideOverview items={deckSlides} />,
   },
 ]
 

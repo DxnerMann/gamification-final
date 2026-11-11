@@ -6,6 +6,7 @@ import { SlideShell, slides } from './slides'
 export default function App() {
   const deckRef = useRef<HTMLElement>(null)
   const foliageRef = useRef<HTMLDivElement>(null)
+  const vineRef = useRef<HTMLDivElement>(null)
   const indexRef = useRef(0)
   const lockRef = useRef(false)
   const [current, setCurrent] = useState(0)
@@ -53,13 +54,18 @@ export default function App() {
     const deck = deckRef.current
     if (!deck) return
 
-    const shiftFoliage = () => {
+    const shiftLayers = () => {
       const layer = foliageRef.current
-      if (!layer) return
+      const vines = vineRef.current
       const maxScroll = deck.scrollHeight - deck.clientHeight
-      const travel = Math.max(0, layer.offsetHeight - deck.clientHeight)
-      const progress = maxScroll <= 0 ? 0 : deck.scrollTop / maxScroll
-      layer.style.transform = `translate3d(0, ${-progress * travel}px, 0)`
+      if (layer) {
+        const travel = Math.max(0, layer.offsetHeight - deck.clientHeight)
+        const progress = maxScroll <= 0 ? 0 : deck.scrollTop / maxScroll
+        layer.style.transform = `translate3d(0, ${-progress * travel}px, 0)`
+      }
+      if (vines) {
+        vines.style.transform = `translate3d(0, ${-deck.scrollTop * 0.08}px, 0)`
+      }
     }
 
     const onScroll = () => {
@@ -69,7 +75,7 @@ export default function App() {
         indexRef.current = next
         setCurrent(next)
       }
-      shiftFoliage()
+      shiftLayers()
     }
 
     const onWheel = (e: WheelEvent) => {
@@ -87,9 +93,9 @@ export default function App() {
       deck.scrollTo({ top: indexRef.current * deck.clientHeight, behavior: 'auto' })
     }
 
-    shiftFoliage()
+    shiftLayers()
     const layer = foliageRef.current
-    const onImg = () => shiftFoliage()
+    const onImg = () => shiftLayers()
     layer?.querySelectorAll('img').forEach((img) => img.addEventListener('load', onImg))
 
     deck.addEventListener('scroll', onScroll, { passive: true })
@@ -137,7 +143,7 @@ export default function App() {
       </a>
 
       <GreenhouseBackdrop shiftRef={foliageRef} />
-      <LivingPlants hidden={current === slides.length - 1} />
+      <LivingPlants shiftRef={vineRef} />
 
       <nav className="section-nav" aria-label="Section navigation">
         {slides.map((s, i) => (
