@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { motion } from 'framer-motion'
-import { CheckIcon, GardenDecor } from './components/GardenDecor'
+import { CheckIcon, PosterPlants } from './components/GardenDecor'
 
 export type SlideDef = {
   id: string
@@ -76,14 +76,6 @@ export const slides: SlideDef[] = [
             Studying becomes a garden. Small seeds keep students in flow, plants show real
             progress, and friends grow a plot together.
           </p>
-          <div className="hero-ctas">
-            <a className="btn btn-primary" href="#problem">
-              Start presenting
-            </a>
-            <a className="btn btn-secondary" href="#concept">
-              See the concept
-            </a>
-          </div>
         </motion.div>
         <motion.div
           className="hero-visual"
@@ -92,28 +84,37 @@ export const slides: SlideDef[] = [
           aria-hidden="true"
         >
           <div className="garden-stage">
-            <div className="plant" style={{ left: '16%' }}>
+            <div className="plant short" style={{ left: '8%' }}>
               <div className="stem" />
               <span className="leaf l" />
               <span className="leaf r" />
+              <span className="leaf mid" />
             </div>
-            <div className="plant tall" style={{ left: '40%' }}>
+            <div className="plant" style={{ left: '24%' }}>
               <div className="stem" />
               <span className="leaf l" />
               <span className="leaf r" />
+              <span className="leaf mid" />
+            </div>
+            <div className="plant tall" style={{ left: '42%' }}>
+              <div className="stem" />
+              <span className="leaf l" />
+              <span className="leaf r" />
+              <span className="leaf mid" />
               <span className="bloom" />
             </div>
-            <div className="plant" style={{ left: '66%' }}>
+            <div className="plant" style={{ left: '62%' }}>
               <div className="stem" />
               <span className="leaf l" />
               <span className="leaf r" />
-              <span className="bloom lilac" />
+              <span className="leaf mid" />
+            </div>
+            <div className="plant short" style={{ left: '78%' }}>
+              <div className="stem" />
+              <span className="leaf l" />
+              <span className="leaf r" />
             </div>
             <div className="soil" />
-            <div className="sign-post">
-              <div className="pole" />
-              <div className="board">Keep learning and grow.</div>
-            </div>
           </div>
         </motion.div>
       </div>
@@ -141,13 +142,13 @@ export const slides: SlideDef[] = [
                   <stop offset="100%" stopColor="#34c759" stopOpacity="0.42" />
                 </linearGradient>
               </defs>
-              <rect x="48" y="16" width="360" height="236" rx="18" fill="#fffdf8" stroke="rgba(139,107,69,0.18)" />
+              <rect x="48" y="16" width="360" height="236" rx="18" fill="#f6e2c4" stroke="rgba(139,107,69,0.35)" />
               <line x1="70" y1="236" x2="390" y2="236" stroke="#c4b5a0" strokeWidth="1.5" />
               <line x1="70" y1="236" x2="70" y2="36" stroke="#c4b5a0" strokeWidth="1.5" />
-              <text x="230" y="268" textAnchor="middle" fill="#6e6e73" fontSize="13">
+              <text x="230" y="268" textAnchor="middle" fill="#3a3128" fontSize="13">
                 Skill →
               </text>
-              <text x="26" y="146" textAnchor="middle" fill="#6e6e73" fontSize="13" transform="rotate(-90 26 146)">
+              <text x="26" y="146" textAnchor="middle" fill="#3a3128" fontSize="13" transform="rotate(-90 26 146)">
                 Challenge →
               </text>
               <path d="M70 36 L70 140 L190 36 Z" fill="rgba(255,149,0,0.16)" />
@@ -325,28 +326,28 @@ export const slides: SlideDef[] = [
     ),
   },
   {
-    id: 'lukas',
-    label: 'Lukas',
+    id: 'personas',
+    label: 'Personas',
     decor: 'soft',
-    className: 'alt compact',
+    className: 'alt compact personas-slide',
     content: (
       <>
-        <Kicker n="4" label="Persona · the procrastinator" />
-        <div className="persona-layout">
-          <motion.div {...fade}>
+        <Kicker n="4" label="Personas" />
+        <motion.h2 {...fade}>Two ways of leaving the garden</motion.h2>
+        <div className="persona-pair">
+          <motion.article className="panel persona-card" {...fade}>
             <div className="who-head">
               <div className="avatar lukas">L</div>
               <div>
-                <h2>Lukas Becker</h2>
+                <h3>Lukas Becker</h3>
                 <p className="role">
-                  <WhoDot who="lukas" /> Overwhelm · Achiever · Mastery
+                  <WhoDot who="lukas" /> The Procrastinator · Achiever
                 </p>
               </div>
             </div>
             <ul className="facts">
-              <li>22 · Business Administration, 5th semester</li>
-              <li>Stuttgart, shared flat · 12 h/week side job</li>
-              <li>Phone 5+ hours · Clash Royale · Strava stats</li>
+              <li>22 · Business Administration, 5th semester, Stuttgart</li>
+              <li>Shared flat · 12 h/week side job · lives in stats and streaks</li>
             </ul>
             <Bars
               tone="orange"
@@ -357,53 +358,31 @@ export const slides: SlideDef[] = [
                 { label: 'Killer', value: 20 },
               ]}
             />
-          </motion.div>
-          <motion.article className="panel persona-story" {...fade}>
-            <p>
-              Smart, but he opens 400 statistics slides, closes the laptop, and watches YouTube.
-              Two weeks before the exam he panics and pulls all-nighters.
-            </p>
-            <p>
-              <strong>Stuck on</strong> not knowing where to begin, then guilt that makes starting
-              even harder.
-            </p>
-            <p>
-              <strong>Needs</strong> small seeds, visible growth, and one clear next step.
-            </p>
-            <p>
-              <strong>Fears</strong> failing an exam and repeating the semester.
-            </p>
-            <p className="thread">
-              Overwhelm → Achiever → Mastery → seeds and growth → “I actually started.”
-            </p>
+            <div className="persona-story">
+              <p>
+                400 statistics slides, then YouTube. Two weeks before the exam he panics. He does
+                not know where to begin, and the guilt makes starting harder.
+              </p>
+              <p>
+                <strong>Needs</strong> small seeds, visible growth, one clear next step.
+                <strong> Fears</strong> repeating the semester.
+              </p>
+              <p className="thread">Overwhelm → mastery → “I actually started.”</p>
+            </div>
           </motion.article>
-        </div>
-      </>
-    ),
-  },
-  {
-    id: 'sophie',
-    label: 'Sophie',
-    decor: 'dense',
-    className: 'soft compact',
-    content: (
-      <>
-        <Kicker n="5" label="Persona · the bored one" />
-        <div className="persona-layout">
-          <motion.div {...fade}>
+          <motion.article className="panel persona-card" {...fade}>
             <div className="who-head">
               <div className="avatar sophie">S</div>
               <div>
-                <h2>Sophie Wagner</h2>
+                <h3>Sophie Wagner</h3>
                 <p className="role">
-                  <WhoDot who="sophie" /> Boredom · Socializer / Explorer
+                  <WhoDot who="sophie" /> The Bored One · Socializer / Explorer
                 </p>
               </div>
             </div>
             <ul className="facts">
-              <li>24 · Psychology, 1st master’s semester</li>
-              <li>Karlsruhe, lives alone · bouldering, board games</li>
-              <li>Duolingo, Pinterest, Notion, WhatsApp groups</li>
+              <li>24 · Psychology, 1st master’s semester, Karlsruhe</li>
+              <li>Lives alone · bouldering, board games, Notion, WhatsApp</li>
             </ul>
             <Bars
               tone="lilac"
@@ -414,25 +393,17 @@ export const slides: SlideDef[] = [
                 { label: 'Killer', value: 7 },
               ]}
             />
-          </motion.div>
-          <motion.article className="panel persona-story" {...fade}>
-            <p>
-              She starts every semester with a colourful plan. After a few days of re-reading the
-              same notes she drifts to Instagram. She studies best with friends, but her old group
-              moved away.
-            </p>
-            <p>
-              <strong>Stuck on</strong> monotony, and studying alone without accountability.
-            </p>
-            <p>
-              <strong>Needs</strong> new species, seasonal surprises, and a community garden.
-            </p>
-            <p>
-              <strong>Fears</strong> feeling alone with her studies and losing interest in the subject.
-            </p>
-            <p className="thread lilac">
-              Boredom → Socializer / Explorer → curiosity and relatedness → “I helped someone grow.”
-            </p>
+            <div className="persona-story">
+              <p>
+                Every semester starts with a colourful plan. A few days of the same notes and she
+                drifts to Instagram. Her old study group moved away.
+              </p>
+              <p>
+                <strong>Needs</strong> new species, seasons, a community garden.
+                <strong> Fears</strong> studying alone and losing the subject.
+              </p>
+              <p className="thread lilac">Boredom → curiosity → “I helped someone grow.”</p>
+            </div>
           </motion.article>
         </div>
       </>
@@ -445,7 +416,7 @@ export const slides: SlideDef[] = [
     className: 'alt compact',
     content: (
       <>
-        <Kicker n="6" label="Motivators" />
+        <Kicker n="5" label="Motivators" />
         <motion.h2 {...fade}>Color follows the person it is for</motion.h2>
         <motion.p className="lede" {...fade}>
           Orange is Lukas and overwhelm. Lilac is Sophie and boredom. Global motives sit next to
@@ -494,7 +465,7 @@ export const slides: SlideDef[] = [
     className: 'soft',
     content: (
       <>
-        <Kicker n="7" label="Fun" />
+        <Kicker n="6" label="Fun" />
         <motion.h2 {...fade}>A garden that grew because of you</motion.h2>
         <motion.p className="lede" {...fade}>
           Fun in StudyGarden is looking at your garden after a week and seeing that it grew
@@ -533,7 +504,7 @@ export const slides: SlideDef[] = [
     className: 'alt compact',
     content: (
       <>
-        <Kicker n="8" label="Player journey" />
+        <Kicker n="7" label="Player journey" />
         <motion.h2 {...fade}>Onboarding, habit, then elder</motion.h2>
         <motion.p className="lede" {...fade}>
           Difficulty grows with the student so they stay in flow. A break does not kill the garden.
@@ -591,7 +562,7 @@ export const slides: SlideDef[] = [
     className: 'soft compact',
     content: (
       <>
-        <Kicker n="9" label="Engagement loop" />
+        <Kicker n="8" label="Engagement loop" />
         <motion.h2 {...fade}>The same circle, twice</motion.h2>
         <motion.p className="lede" {...fade}>
           Call to action, a small action, visible progress, a good feeling — then the next reason
@@ -643,7 +614,7 @@ export const slides: SlideDef[] = [
     className: 'alt compact',
     content: (
       <>
-        <Kicker n="10" label="Mechanics → dynamics → activities" />
+        <Kicker n="9" label="Mechanics → dynamics → activities" />
         <motion.h2 {...fade}>Each mechanic answers one problem</motion.h2>
         <motion.div className="panel table-wrap" {...fade}>
           <table className="mech-table">
@@ -742,7 +713,7 @@ export const slides: SlideDef[] = [
     className: 'soft compact',
     content: (
       <>
-        <Kicker n="11" label="Technologies" />
+        <Kicker n="10" label="Technologies" />
         <motion.h2 {...fade}>Each tool holds up a mechanic</motion.h2>
         <motion.ul className="checklist tech-list" {...fade}>
           <li>
@@ -801,7 +772,7 @@ export const slides: SlideDef[] = [
     className: 'alt compact',
     content: (
       <>
-        <Kicker n="12" label="Ethics" />
+        <Kicker n="11" label="Ethics" />
         <motion.h2 {...fade}>Care without punishment</motion.h2>
         <motion.div className="ethics-grid" {...fade}>
           <article className="panel">
@@ -850,7 +821,7 @@ export const slides: SlideDef[] = [
     className: 'soft compact',
     content: (
       <>
-        <Kicker n="13" label="Theoretical foundations" />
+        <Kicker n="12" label="Theoretical foundations" />
         <motion.h2 {...fade}>Five sources, each tied to a block</motion.h2>
         <motion.ul className="theory-list" {...fade}>
           <li>
@@ -885,6 +856,7 @@ export const slides: SlideDef[] = [
     className: 'poster-slide',
     content: (
       <div className="poster-board" role="region" aria-label="StudyGarden summary poster">
+        <PosterPlants />
         <header className="poster-header">
           <div>
             <p className="eyebrow">Summary poster</p>
@@ -973,19 +945,11 @@ export const slides: SlideDef[] = [
             </h3>
             <p>Plants rest. No study-time boards. AI never writes graded work. Private, deletable data. Chosen reminders.</p>
           </article>
-          <article className="poster-cell wide">
-            <h3>
-              <span className="pc-num">13</span> Theory
-            </h3>
-            <p>Flow (1990) · Ryan &amp; Deci (2000) · Pink, Drive (2009) · Bartle · barriers in gamification. QR on the print.</p>
-          </article>
         </div>
         <div className="poster-footer-bar">
+          <span>Flow · Ryan &amp; Deci · Pink · Bartle · barriers in gamification</span>
           <span>
-            <strong>Lukas</strong> overwhelm → mastery → seeds → “I actually started.”
-          </span>
-          <span>
-            <strong>Sophie</strong> boredom → curiosity → community → “I helped someone grow.”
+            <strong>Lukas</strong> “I actually started.” · <strong>Sophie</strong> “I helped someone grow.”
           </span>
         </div>
       </div>
@@ -1007,7 +971,6 @@ export function SlideShell({
       data-section={slide.id}
       data-label={slide.label}
     >
-      <GardenDecor variant={slide.decor ?? 'soft'} />
       <div className="slide-inner">{children}</div>
     </section>
   )

@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { MotionConfig } from 'framer-motion'
-import { BrandMark } from './components/BrandMark'
+import { GreenhouseBackdrop, LivingPlants } from './components/GardenDecor'
 import { SlideShell, slides } from './slides'
 
 export default function App() {
   const deckRef = useRef<HTMLElement>(null)
+  const foliageRef = useRef<HTMLDivElement>(null)
   const indexRef = useRef(0)
   const lockRef = useRef(false)
   const [current, setCurrent] = useState(0)
@@ -52,6 +53,15 @@ export default function App() {
     const deck = deckRef.current
     if (!deck) return
 
+    const shiftFoliage = () => {
+      const layer = foliageRef.current
+      if (!layer) return
+      const maxScroll = deck.scrollHeight - deck.clientHeight
+      const travel = Math.max(0, layer.offsetHeight - deck.clientHeight)
+      const progress = maxScroll <= 0 ? 0 : deck.scrollTop / maxScroll
+      layer.style.transform = `translate3d(0, ${-progress * travel}px, 0)`
+    }
+
     const onScroll = () => {
       const idx = Math.round(deck.scrollTop / deck.clientHeight)
       const next = Math.max(0, Math.min(slides.length - 1, idx))
@@ -59,6 +69,7 @@ export default function App() {
         indexRef.current = next
         setCurrent(next)
       }
+      shiftFoliage()
     }
 
     const onWheel = (e: WheelEvent) => {
@@ -76,6 +87,11 @@ export default function App() {
       deck.scrollTo({ top: indexRef.current * deck.clientHeight, behavior: 'auto' })
     }
 
+    shiftFoliage()
+    const layer = foliageRef.current
+    const onImg = () => shiftFoliage()
+    layer?.querySelectorAll('img').forEach((img) => img.addEventListener('load', onImg))
+
     deck.addEventListener('scroll', onScroll, { passive: true })
     deck.addEventListener('wheel', onWheel, { passive: false })
     window.addEventListener('resize', onResize)
@@ -83,6 +99,7 @@ export default function App() {
       deck.removeEventListener('scroll', onScroll)
       deck.removeEventListener('wheel', onWheel)
       window.removeEventListener('resize', onResize)
+      layer?.querySelectorAll('img').forEach((img) => img.removeEventListener('load', onImg))
     }
   }, [goTo])
 
@@ -119,41 +136,8 @@ export default function App() {
         Skip to content
       </a>
 
-      <header className="topbar">
-        <a
-          className="brand-lockup"
-          href="#hero"
-          onClick={(e) => {
-            e.preventDefault()
-            goTo(0)
-          }}
-        >
-          <BrandMark />
-          StudyGarden
-        </a>
-        <div className="nav-actions">
-          <span className="slide-count" aria-live="polite">
-            {current + 1} / {slides.length}
-          </span>
-          <button type="button" className="nav-btn" onClick={() => goTo(current - 1)} aria-label="Previous">
-            Prev
-          </button>
-          <button type="button" className="nav-btn" onClick={() => goTo(current + 1)} aria-label="Next">
-            Next
-          </button>
-          <button
-            type="button"
-            className={`nav-btn ${presenting ? 'active' : ''}`}
-            aria-pressed={presenting}
-            onClick={() => void setPresent(!presenting)}
-          >
-            Present
-          </button>
-          <button type="button" className="nav-btn primary" onClick={() => goTo(1)}>
-            Explore
-          </button>
-        </div>
-      </header>
+      <GreenhouseBackdrop shiftRef={foliageRef} />
+      <LivingPlants hidden={current === slides.length - 1} />
 
       <nav className="section-nav" aria-label="Section navigation">
         {slides.map((s, i) => (
