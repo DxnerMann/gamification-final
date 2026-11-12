@@ -12,7 +12,9 @@ export default function App() {
   const [current, setCurrent] = useState(0)
   const [presenting, setPresenting] = useState(false)
   const [hint, setHint] = useState(false)
+  const [typed, setTyped] = useState('')
   const hintTimer = useRef<number | null>(null)
+  const typedRef = useRef('')
 
   const goTo = useCallback((index: number, smooth = true) => {
     const next = Math.max(0, Math.min(slides.length - 1, index))
@@ -114,6 +116,38 @@ export default function App() {
       const tag = (e.target as HTMLElement | null)?.tagName ?? ''
       if (tag === 'INPUT' || tag === 'TEXTAREA') return
 
+      if (e.key >= '0' && e.key <= '9') {
+        e.preventDefault()
+        typedRef.current = typedRef.current.length >= 2 ? e.key : typedRef.current + e.key
+        setTyped(typedRef.current)
+        return
+      }
+      if (e.key === 'Enter') {
+        if (!typedRef.current) return
+        e.preventDefault()
+        const index = Number(typedRef.current)
+        typedRef.current = ''
+        setTyped('')
+        goTo(index)
+        return
+      }
+      if (e.key === 'Backspace' && typedRef.current) {
+        e.preventDefault()
+        typedRef.current = typedRef.current.slice(0, -1)
+        setTyped(typedRef.current)
+        return
+      }
+      if ((e.key === 'Escape' || e.key === 'Esc') && typedRef.current) {
+        e.preventDefault()
+        typedRef.current = ''
+        setTyped('')
+        return
+      }
+      if (typedRef.current) {
+        typedRef.current = ''
+        setTyped('')
+      }
+
       if (['ArrowDown', 'ArrowRight', 'PageDown', ' '].includes(e.key)) {
         e.preventDefault()
         goTo(indexRef.current + 1)
@@ -166,6 +200,9 @@ export default function App() {
 
       <div className={`keyboard-hint ${hint ? 'show' : ''}`} role="status">
         Use ← → or ↑ ↓ to navigate · P for Present · Esc to exit
+      </div>
+      <div className={`jump-hint ${typed ? 'show' : ''}`} role="status">
+        {typed}
       </div>
 
       <main ref={deckRef} className="deck" id="deck">

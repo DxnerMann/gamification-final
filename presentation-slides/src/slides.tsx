@@ -1,6 +1,9 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import { MotionConfig, motion } from 'framer-motion'
 import { CheckIcon } from './components/GardenDecor'
+import lukasPortrait from './assets/personas/lukas.jpg'
+import sophiePortrait from './assets/personas/sophie.jpg'
+import { AppPhones } from './components/AppPhones'
 
 export type SlideDef = {
   id: string
@@ -19,11 +22,15 @@ const fade = {
 
 function Kicker({ n, label }: { n: string; label: string }) {
   return (
-    <div className="section-kicker">
+    <div className={`section-kicker${n.length > 1 ? ' wide' : ''}`}>
       <span className="num">{n}</span>
       {label}
     </div>
   )
+}
+
+function SourceNote({ children }: { children: ReactNode }) {
+  return <p className="source-note">{children}</p>
 }
 
 function GardenPot({ kind }: { kind: 'grow' | 'discover' | 'together' }) {
@@ -86,7 +93,7 @@ function Bars({
           <div className="bar-track">
             <div className={`bar-fill ${tone}`} style={{ width: `${row.value}%` }} />
           </div>
-          <strong>{row.value}</strong>
+          <strong>{row.value}%</strong>
         </div>
       ))}
     </div>
@@ -96,16 +103,15 @@ function Bars({
 const posterMeta: Record<string, { n: string; label: string; col: string; row: number }> = {
   problem: { n: '1', label: 'Problem', col: '1 / span 6', row: 1 },
   goal: { n: '2', label: 'Goal', col: '7 / span 6', row: 1 },
-  personas: { n: '4', label: 'Personas', col: '1 / span 8', row: 2 },
+  personas: { n: '3', label: 'Personas', col: '1 / span 8', row: 2 },
   motivators: { n: '5', label: 'Motivators', col: '9 / span 4', row: 2 },
-  concept: { n: '3', label: 'Concept', col: '1 / span 8', row: 3 },
+  concept: { n: '4', label: 'Concept', col: '1 / span 8', row: 3 },
   fun: { n: '6', label: 'Fun', col: '9 / span 4', row: 3 },
   journey: { n: '7', label: 'Journey', col: '1 / span 8', row: 4 },
   loop: { n: '8', label: 'Loop', col: '9 / span 4', row: 4 },
   mechanics: { n: '9', label: 'Mechanics', col: '1 / span 8', row: 5 },
   tech: { n: '10', label: 'Tech', col: '9 / span 4', row: 5 },
-  ethics: { n: '11', label: 'Ethics', col: '1 / span 7', row: 6 },
-  theory: { n: '12', label: 'Theory', col: '8 / span 5', row: 6 },
+  ethics: { n: '11', label: 'Ethics', col: '1 / span 12', row: 6 },
 }
 
 function PosterBlock({
@@ -180,7 +186,7 @@ function SlideOverview({ items }: { items: SlideDef[] }) {
     <MotionConfig reducedMotion="always">
       <div className="overview-grid" aria-label="Everything on one page">
         {items
-          .filter((slide) => slide.id !== 'hero')
+          .filter((slide) => slide.id !== 'hero' && slide.id !== 'app')
           .map((slide) => (
             <PosterBlock key={slide.id} meta={posterMeta[slide.id]}>
               {slide.content}
@@ -289,7 +295,7 @@ const deckSlides: SlideDef[] = [
                 fill="url(#flowGrad)"
               />
               <path
-                d="M80 226 C 140 180, 230 128, 320 78 C 350 62, 375 52, 385 46"
+                d="M108 222 C 114 220, 130 213, 141 208 C 152 203, 163 198, 174 192 C 185 187, 196 181, 207 175 C 218 169, 229 162, 240 156 C 251 150, 262 144, 273 137 C 284 131, 295 124, 306 117 C 317 110, 328 103, 339 97 C 350 91, 367 82, 372 79"
                 fill="none"
                 stroke="#34c759"
                 strokeWidth="3"
@@ -304,11 +310,11 @@ const deckSlides: SlideDef[] = [
               <text x="178" y="156" fill="#248a3d" fontSize="13" fontWeight="700">
                 FLOW
               </text>
-              <circle r="7" fill="#ff9500" stroke="#fff" strokeWidth="2">
+              <circle r="7" fill="#1d1d1f" stroke="#fff" strokeWidth="2">
                 <animateMotion
                   dur="4.8s"
                   repeatCount="indefinite"
-                  path="M 80 226 C 140 180, 230 128, 320 78 C 350 62, 375 52, 385 46"
+                  path="M108 222 C 114 220, 130 213, 141 208 C 152 203, 163 198, 174 192 C 185 187, 196 181, 207 175 C 218 169, 229 162, 240 156 C 251 150, 262 144, 273 137 C 284 131, 295 124, 306 117 C 317 110, 328 103, 339 97 C 350 91, 367 82, 372 79"
                 />
               </circle>
             </svg>
@@ -327,6 +333,7 @@ const deckSlides: SlideDef[] = [
             </p>
           </div>
         </motion.div>
+        <SourceNote>Csikszentmihalyi (1990), Flow</SourceNote>
       </>
     ),
   },
@@ -349,13 +356,21 @@ const deckSlides: SlideDef[] = [
               <span className="check">
                 <CheckIcon />
               </span>
-              Seeds small enough to finish today — against overwhelm.
+              <span className="check-line">
+                Seeds small enough to finish today
+                <span className="check-sep" aria-hidden="true" />
+                <span className="check-why">against overwhelm</span>
+              </span>
             </li>
             <li>
               <span className="check">
                 <CheckIcon />
               </span>
-              New species and methods — against boredom.
+              <span className="check-line">
+                New species and methods
+                <span className="check-sep" aria-hidden="true" />
+                <span className="check-why">against boredom</span>
+              </span>
             </li>
             <li>
               <span className="check">
@@ -380,6 +395,98 @@ const deckSlides: SlideDef[] = [
             </div>
           </article>
         </motion.div>
+        <SourceNote>Csikszentmihalyi (1990), Flow</SourceNote>
+      </>
+    ),
+  },
+  {
+    id: 'personas',
+    label: 'Personas',
+    decor: 'soft',
+    className: 'alt compact personas-slide',
+    content: (
+      <>
+        <Kicker n="3" label="Personas" />
+        <motion.h2 {...fade}>Two ways of leaving the garden</motion.h2>
+        <div className="persona-pair">
+          <motion.article className="panel persona-card" {...fade}>
+            <div className="who-head">
+              <img className="avatar lukas" src={lukasPortrait} alt="" />
+              <div>
+                <h3>Lukas Becker</h3>
+                <p className="role">
+                  <WhoDot who="lukas" /> The Procrastinator · Achiever
+                </p>
+              </div>
+            </div>
+            <ul className="facts">
+              <li>22 · Business Administration, 5th semester, Stuttgart</li>
+              <li>Shared flat · 12 h/week side job · lives in stats and streaks</li>
+            </ul>
+            <Bars
+              tone="orange"
+              rows={[
+                { label: 'Achiever', value: 87 },
+                { label: 'Explorer', value: 73 },
+                { label: 'Socializer', value: 40 },
+                { label: 'Killer', value: 0 },
+              ]}
+            />
+            <p className="limbic orange">
+              <span>Limbic type</span> Dominance
+            </p>
+            <div className="persona-story">
+              <p>
+                400 statistics slides, then YouTube. Two weeks before the exam he panics. He does
+                not know where to begin, and the guilt makes starting harder.
+              </p>
+              <p>
+                <strong>Needs</strong> small seeds, visible growth, one clear next step.
+                <strong> Fears</strong> repeating the semester.
+              </p>
+              <p className="thread">Overwhelm → mastery → “I actually started.”</p>
+            </div>
+          </motion.article>
+          <motion.article className="panel persona-card" {...fade}>
+            <div className="who-head">
+              <img className="avatar sophie" src={sophiePortrait} alt="" />
+              <div>
+                <h3>Sophie Wagner</h3>
+                <p className="role">
+                  <WhoDot who="sophie" /> The Bored One · Socializer / Explorer
+                </p>
+              </div>
+            </div>
+            <ul className="facts">
+              <li>24 · Psychology, 1st master’s semester, Karlsruhe</li>
+              <li>Lives alone · bouldering, board games, Notion, WhatsApp</li>
+            </ul>
+            <Bars
+              tone="lilac"
+              rows={[
+                { label: 'Achiever', value: 33 },
+                { label: 'Explorer', value: 53 },
+                { label: 'Socializer', value: 100 },
+                { label: 'Killer', value: 13 },
+              ]}
+            />
+            <p className="limbic lilac">
+              <span>Limbic type</span> Harmony
+            </p>
+            <div className="persona-story">
+              <p>
+                Every semester starts with a colourful plan. A few days of the same notes and she
+                drifts to Instagram. Her old study group moved away.
+              </p>
+              <p>
+                <strong>Needs</strong> new species, seasons, a community garden.
+                <strong> Fears</strong> studying alone and losing the subject.
+              </p>
+              <p className="thread lilac">Boredom → curiosity → “I helped someone grow.”</p>
+            </div>
+          </motion.article>
+        </div>
+        <SourceNote>Bartle, player types; Häusel, Limbic Map</SourceNote>
       </>
     ),
   },
@@ -390,7 +497,7 @@ const deckSlides: SlideDef[] = [
     className: 'soft compact',
     content: (
       <>
-        <Kicker n="3" label="Concept" />
+        <Kicker n="4" label="Concept" />
         <motion.h2 {...fade}>Every module is a garden bed</motion.h2>
         <motion.p className="lede" {...fade}>
           Every topic is a plant, every study session is care. Big tasks split into seeds —
@@ -453,90 +560,7 @@ const deckSlides: SlideDef[] = [
           Unlike Forest, which only rewards putting the phone away, StudyGarden structures the
           studying itself — seeds against overwhelm, variety against boredom.
         </p>
-      </>
-    ),
-  },
-  {
-    id: 'personas',
-    label: 'Personas',
-    decor: 'soft',
-    className: 'alt compact personas-slide',
-    content: (
-      <>
-        <Kicker n="4" label="Personas" />
-        <motion.h2 {...fade}>Two ways of leaving the garden</motion.h2>
-        <div className="persona-pair">
-          <motion.article className="panel persona-card" {...fade}>
-            <div className="who-head">
-              <div className="avatar lukas">L</div>
-              <div>
-                <h3>Lukas Becker</h3>
-                <p className="role">
-                  <WhoDot who="lukas" /> The Procrastinator · Achiever
-                </p>
-              </div>
-            </div>
-            <ul className="facts">
-              <li>22 · Business Administration, 5th semester, Stuttgart</li>
-              <li>Shared flat · 12 h/week side job · lives in stats and streaks</li>
-            </ul>
-            <Bars
-              tone="orange"
-              rows={[
-                { label: 'Achiever', value: 80 },
-                { label: 'Explorer', value: 40 },
-                { label: 'Socializer', value: 33 },
-                { label: 'Killer', value: 20 },
-              ]}
-            />
-            <div className="persona-story">
-              <p>
-                400 statistics slides, then YouTube. Two weeks before the exam he panics. He does
-                not know where to begin, and the guilt makes starting harder.
-              </p>
-              <p>
-                <strong>Needs</strong> small seeds, visible growth, one clear next step.
-                <strong> Fears</strong> repeating the semester.
-              </p>
-              <p className="thread">Overwhelm → mastery → “I actually started.”</p>
-            </div>
-          </motion.article>
-          <motion.article className="panel persona-card" {...fade}>
-            <div className="who-head">
-              <div className="avatar sophie">S</div>
-              <div>
-                <h3>Sophie Wagner</h3>
-                <p className="role">
-                  <WhoDot who="sophie" /> The Bored One · Socializer / Explorer
-                </p>
-              </div>
-            </div>
-            <ul className="facts">
-              <li>24 · Psychology, 1st master’s semester, Karlsruhe</li>
-              <li>Lives alone · bouldering, board games, Notion, WhatsApp</li>
-            </ul>
-            <Bars
-              tone="lilac"
-              rows={[
-                { label: 'Socializer', value: 87 },
-                { label: 'Explorer', value: 67 },
-                { label: 'Achiever', value: 33 },
-                { label: 'Killer', value: 7 },
-              ]}
-            />
-            <div className="persona-story">
-              <p>
-                Every semester starts with a colourful plan. A few days of the same notes and she
-                drifts to Instagram. Her old study group moved away.
-              </p>
-              <p>
-                <strong>Needs</strong> new species, seasons, a community garden.
-                <strong> Fears</strong> studying alone and losing the subject.
-              </p>
-              <p className="thread lilac">Boredom → curiosity → “I helped someone grow.”</p>
-            </div>
-          </motion.article>
-        </div>
+        <SourceNote>Csikszentmihalyi (1990), Flow</SourceNote>
       </>
     ),
   },
@@ -586,6 +610,7 @@ const deckSlides: SlideDef[] = [
             </ul>
           </div>
         </motion.div>
+        <SourceNote>Ryan &amp; Deci (2000); Pink (2009), Drive</SourceNote>
       </>
     ),
   },
@@ -625,6 +650,7 @@ const deckSlides: SlideDef[] = [
             <p>A shared garden with friends, not a scoreboard.</p>
           </article>
         </motion.div>
+        <SourceNote>Ryan &amp; Deci (2000); Pink (2009), Drive</SourceNote>
       </>
     ),
   },
@@ -683,6 +709,7 @@ const deckSlides: SlideDef[] = [
           After a break the garden is resting, not dying. One seed wakes it. A new semester is a
           new season: new beds, new species.
         </p>
+        <SourceNote>Csikszentmihalyi (1990), Flow</SourceNote>
       </>
     ),
   },
@@ -735,6 +762,7 @@ const deckSlides: SlideDef[] = [
             </ol>
           </article>
         </motion.div>
+        <SourceNote>Ryan &amp; Deci (2000); Pink (2009), Drive</SourceNote>
       </>
     ),
   },
@@ -747,92 +775,36 @@ const deckSlides: SlideDef[] = [
       <>
         <Kicker n="9" label="Mechanics → dynamics → activities" />
         <motion.h2 {...fade}>Each mechanic answers one problem</motion.h2>
-        <motion.div className="panel table-wrap" {...fade}>
-          <table className="mech-table">
-            <thead>
-              <tr>
-                <th>Mechanic</th>
-                <th>Dynamic</th>
-                <th>Activity</th>
-                <th>For</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Seeds</td>
-                <td>Small wins, no overwhelm</td>
-                <td>Split a task, finish one 10-min seed</td>
-                <td>
-                  <WhoDot who="lukas" /> Mastery
-                </td>
-              </tr>
-              <tr>
-                <td>Growth stages</td>
-                <td>Visible progress</td>
-                <td>Watch seed → sprout → bloom</td>
-                <td>
-                  <WhoDot who="lukas" /> Mastery
-                </td>
-              </tr>
-              <tr>
-                <td>Adaptive difficulty</td>
-                <td>Challenge grows with skill</td>
-                <td>Bigger plants need longer seeds</td>
-                <td>
-                  <WhoDot who="both" /> Mastery
-                </td>
-              </tr>
-              <tr>
-                <td>Species per method</td>
-                <td>Curiosity and variety</td>
-                <td>Flashcards, quizzes, summaries</td>
-                <td>
-                  <WhoDot who="sophie" /> Autonomy
-                </td>
-              </tr>
-              <tr>
-                <td>Rare plants</td>
-                <td>Discovery</td>
-                <td>Connect topics or finish a study week</td>
-                <td>
-                  <WhoDot who="sophie" /> Curiosity
-                </td>
-              </tr>
-              <tr>
-                <td>Seasonal events</td>
-                <td>Novelty over time</td>
-                <td>Exam season, new-semester season</td>
-                <td>
-                  <WhoDot who="sophie" /> Curiosity
-                </td>
-              </tr>
-              <tr>
-                <td>Community garden</td>
-                <td>Social commitment</td>
-                <td>Grow a shared bed with the group</td>
-                <td>
-                  <WhoDot who="sophie" /> Relatedness
-                </td>
-              </tr>
-              <tr>
-                <td>Gifting cuttings</td>
-                <td>Purpose, recognition</td>
-                <td>Share summaries, mentor beginners</td>
-                <td>
-                  <WhoDot who="sophie" /> Purpose
-                </td>
-              </tr>
-              <tr>
-                <td>Gardener rank</td>
-                <td>A long-term goal</td>
-                <td>Seed → Gardener → Botanist</td>
-                <td>
-                  <WhoDot who="lukas" /> Mastery
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <motion.div className="mech-grid" {...fade}>
+          {(
+            [
+              ['Seeds', 'Small wins, no overwhelm', 'Split a task, finish one 10-min seed', 'lukas', 'Mastery', 'grow'],
+              ['Growth stages', 'Visible progress', 'Watch seed → sprout → bloom', 'lukas', 'Mastery', 'discover'],
+              ['Adaptive difficulty', 'Challenge grows with skill', 'Bigger plants need longer seeds', 'both', 'Mastery', 'grow'],
+              ['Species per method', 'Curiosity and variety', 'Flashcards, quizzes, summaries', 'sophie', 'Autonomy', 'discover'],
+              ['Rare plants', 'Discovery', 'Connect topics or finish a study week', 'sophie', 'Curiosity', 'discover'],
+              ['Seasonal events', 'Novelty over time', 'Exam season, new-semester season', 'sophie', 'Curiosity', 'together'],
+              ['Community garden', 'Social commitment', 'Grow a shared bed with the group', 'sophie', 'Relatedness', 'together'],
+              ['Gifting cuttings', 'Purpose, recognition', 'Share summaries, mentor beginners', 'sophie', 'Purpose', 'together'],
+              ['Gardener rank', 'A long-term goal', 'Seed → Gardener → Botanist', 'lukas', 'Mastery', 'grow'],
+            ] as const
+          ).map(([title, dynamic, activity, who, motive, plant]) => (
+            <article key={title} className={`mech-card ${who === 'lukas' ? 'orange' : who === 'sophie' ? 'lilac' : 'both'}`}>
+              <span className="mech-icon">
+                <GardenPot kind={plant} />
+              </span>
+              <div className="mech-copy">
+                <h3>{title}</h3>
+                <p className="dynamic">{dynamic}</p>
+                <p className="activity">{activity}</p>
+                <p className="mech-for">
+                  <WhoDot who={who} /> {motive}
+                </p>
+              </div>
+            </article>
+          ))}
         </motion.div>
+        <SourceNote>Ryan &amp; Deci (2000); Pink (2009), Drive</SourceNote>
       </>
     ),
   },
@@ -882,16 +854,8 @@ const deckSlides: SlideDef[] = [
               modules and exam dates appear on their own.
             </span>
           </li>
-          <li>
-            <span className="check">
-              <CheckIcon />
-            </span>
-            <span>
-              <strong>Optional AR → seasonal beds.</strong> Later, see the garden on your desk
-              through the camera.
-            </span>
-          </li>
         </motion.ul>
+        <SourceNote>Csikszentmihalyi (1990), Flow</SourceNote>
       </>
     ),
   },
@@ -941,42 +905,16 @@ const deckSlides: SlideDef[] = [
             </p>
           </article>
         </motion.div>
+        <SourceNote>Key challenges and barriers in gamification</SourceNote>
       </>
     ),
   },
   {
-    id: 'theory',
-    label: 'Theory',
+    id: 'app',
+    label: 'App',
     decor: 'soft',
     className: 'soft compact',
-    content: (
-      <>
-        <Kicker n="12" label="Theoretical foundations" />
-        <motion.h2 {...fade}>Five sources, each tied to a block</motion.h2>
-        <motion.ul className="theory-list" {...fade}>
-          <li>
-            <strong>Csikszentmihalyi (1990), Flow</strong>
-            <span>Problem and adaptive difficulty — anxiety versus boredom.</span>
-          </li>
-          <li>
-            <strong>Ryan &amp; Deci (2000)</strong>
-            <span>Motivators: intrinsic and extrinsic, autonomy, competence, relatedness.</span>
-          </li>
-          <li>
-            <strong>Pink (2009), Drive</strong>
-            <span>The global motives autonomy, mastery, and purpose.</span>
-          </li>
-          <li>
-            <strong>Player types (Bartle)</strong>
-            <span>Personas: Achiever versus Socializer and Explorer.</span>
-          </li>
-          <li>
-            <strong>Key challenges and barriers in gamification</strong>
-            <span>Ethics: pressure, streaks, and rankings.</span>
-          </li>
-        </motion.ul>
-      </>
-    ),
+    content: <AppPhones />,
   },
 ]
 
