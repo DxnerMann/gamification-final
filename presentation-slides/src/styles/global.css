@@ -360,6 +360,15 @@ h1, h2, h3 { letter-spacing: -0.022em; color: #1d1d1f; }
   background: rgba(36, 28, 20, 0.38);
   flex-shrink: 0;
 }
+.inline-sep {
+  display: inline-block;
+  width: 1.5px;
+  height: 0.9em;
+  margin: 0 0.15em;
+  vertical-align: -0.12em;
+  border-radius: 99px;
+  background: rgba(36, 28, 20, 0.38);
+}
 .check-why { color: rgba(60, 60, 67, 0.78); }
 
 /* Hero — one big title, plants underneath */

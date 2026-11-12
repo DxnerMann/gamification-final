@@ -29,6 +29,10 @@ function Kicker({ n, label }: { n: string; label: string }) {
   )
 }
 
+function Sep() {
+  return <span className="inline-sep" aria-hidden="true" />
+}
+
 function SourceNote({ children }: { children: ReactNode }) {
   return <p className="source-note">{children}</p>
 }
@@ -253,7 +257,7 @@ const deckSlides: SlideDef[] = [
         <motion.div className="hero-copy" {...fade}>
           <p className="eyebrow">Gamified learning</p>
           <h1>StudyGarden</h1>
-          <p className="hero-tagline">Grow your knowledge — one seed at a time.</p>
+          <p className="hero-tagline">Grow your knowledge, one seed at a time.</p>
           <p className="hero-support">
             Studying becomes a garden. Small seeds keep students in flow, plants show real
             progress, and friends grow a plot together.
@@ -273,7 +277,7 @@ const deckSlides: SlideDef[] = [
         <Kicker n="1" label="Problem" />
         <motion.h2 {...fade}>Students leave the flow channel</motion.h2>
         <motion.p className="lede" {...fade}>
-          Studying either overwhelms them — “prepare for the statistics exam” — or bores them
+          Studying either overwhelms them (“prepare for the statistics exam”) or bores them
           with the same repetition. Both push them out of flow, so they procrastinate.
         </motion.p>
         <motion.div className="panel flow-wrap" {...fade}>
@@ -506,7 +510,7 @@ const deckSlides: SlideDef[] = [
         <Kicker n="4" label="Concept" />
         <motion.h2 {...fade}>Every module is a garden bed</motion.h2>
         <motion.p className="lede" {...fade}>
-          Every topic is a plant, every study session is care. Big tasks split into seeds —
+          Every topic is a plant, every study session is care. Big tasks split into seeds:
           10–15 minute micro-tasks. Plants grow as you learn, and different methods grow different
           species, so the garden never looks the same.
         </motion.p>
@@ -564,7 +568,7 @@ const deckSlides: SlideDef[] = [
         </motion.div>
         <p className="footnote">
           Unlike Forest, which only rewards putting the phone away, StudyGarden structures the
-          studying itself — seeds against overwhelm, variety against boredom.
+          studying itself: seeds against overwhelm, variety against boredom.
         </p>
         <SourceNote>Csikszentmihalyi (1990), Flow</SourceNote>
       </>
@@ -588,16 +592,16 @@ const deckSlides: SlideDef[] = [
             <h3>Intrinsic</h3>
             <ul>
               <li>
-                <WhoDot who="lukas" /> Mastery — improve study skills and see real progress
+                <WhoDot who="lukas" /> Mastery <Sep /> improve study skills and see real progress
               </li>
               <li>
-                <WhoDot who="both" /> Autonomy — choose plants, methods, and pace
+                <WhoDot who="both" /> Autonomy <Sep /> choose plants, methods, and pace
               </li>
               <li>
-                <WhoDot who="sophie" /> Curiosity — discover new species and study methods
+                <WhoDot who="sophie" /> Curiosity <Sep /> discover new species and study methods
               </li>
               <li>
-                <WhoDot who="sophie" /> Purpose — help beginners and grow together
+                <WhoDot who="sophie" /> Purpose <Sep /> help beginners and grow together
               </li>
             </ul>
           </div>
@@ -729,7 +733,7 @@ const deckSlides: SlideDef[] = [
         <Kicker n="8" label="Engagement loop" />
         <motion.h2 {...fade}>The same circle, twice</motion.h2>
         <motion.p className="lede" {...fade}>
-          Call to action, a small action, visible progress, a good feeling — then the next reason
+          Call to action, a small action, visible progress, a good feeling, then the next reason
           to come back.
         </motion.p>
         <motion.div className="loop-cols" {...fade}>
@@ -746,7 +750,7 @@ const deckSlides: SlideDef[] = [
                 <strong>Progress</strong> Your first sprout appears
               </li>
               <li>
-                <strong>Feeling</strong> Pride — “I actually started!”
+                <strong>Feeling</strong> Pride <Sep /> “I actually started!”
               </li>
             </ol>
           </article>
@@ -763,7 +767,7 @@ const deckSlides: SlideDef[] = [
                 <strong>Progress</strong> Rare species and Botanist rank
               </li>
               <li>
-                <strong>Feeling</strong> Purpose — “I helped someone grow.”
+                <strong>Feeling</strong> Purpose <Sep /> “I helped someone grow.”
               </li>
             </ol>
           </article>
@@ -878,7 +882,7 @@ const deckSlides: SlideDef[] = [
           <article className="panel">
             <h3>Wellbeing</h3>
             <p>
-              Streaks and lost progress create guilt. Plants never die — they rest. Illness and
+              Streaks and lost progress create guilt. Plants never die. They rest. Illness and
               exam weeks are not punished. One seed wakes the garden.
             </p>
           </article>
