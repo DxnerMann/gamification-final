@@ -186,7 +186,7 @@ function SlideOverview({ items }: { items: SlideDef[] }) {
     <MotionConfig reducedMotion="always">
       <div className="overview-grid" aria-label="Everything on one page">
         {items
-          .filter((slide) => slide.id !== 'hero' && slide.id !== 'app')
+          .filter((slide) => !['hero', 'app', 'end'].includes(slide.id))
           .map((slide) => (
             <PosterBlock key={slide.id} meta={posterMeta[slide.id]}>
               {slide.content}
@@ -194,6 +194,51 @@ function SlideOverview({ items }: { items: SlideDef[] }) {
           ))}
       </div>
     </MotionConfig>
+  )
+}
+
+function HeroBed() {
+  return (
+    <motion.div
+      className="hero-visual"
+      {...fade}
+      transition={{ ...fade.transition, delay: 0.08 }}
+      aria-hidden="true"
+    >
+      <div className="garden-stage">
+        <div className="plant short" style={{ left: '8%' }}>
+          <div className="stem" />
+          <span className="leaf l" />
+          <span className="leaf r" />
+          <span className="leaf mid" />
+        </div>
+        <div className="plant" style={{ left: '24%' }}>
+          <div className="stem" />
+          <span className="leaf l" />
+          <span className="leaf r" />
+          <span className="leaf mid" />
+        </div>
+        <div className="plant tall" style={{ left: '42%' }}>
+          <div className="stem" />
+          <span className="leaf l" />
+          <span className="leaf r" />
+          <span className="leaf mid" />
+          <span className="bloom" />
+        </div>
+        <div className="plant" style={{ left: '62%' }}>
+          <div className="stem" />
+          <span className="leaf l" />
+          <span className="leaf r" />
+          <span className="leaf mid" />
+        </div>
+        <div className="plant short" style={{ left: '78%' }}>
+          <div className="stem" />
+          <span className="leaf l" />
+          <span className="leaf r" />
+        </div>
+        <div className="soil" />
+      </div>
+    </motion.div>
   )
 }
 
@@ -214,46 +259,7 @@ const deckSlides: SlideDef[] = [
             progress, and friends grow a plot together.
           </p>
         </motion.div>
-        <motion.div
-          className="hero-visual"
-          {...fade}
-          transition={{ ...fade.transition, delay: 0.08 }}
-          aria-hidden="true"
-        >
-          <div className="garden-stage">
-            <div className="plant short" style={{ left: '8%' }}>
-              <div className="stem" />
-              <span className="leaf l" />
-              <span className="leaf r" />
-              <span className="leaf mid" />
-            </div>
-            <div className="plant" style={{ left: '24%' }}>
-              <div className="stem" />
-              <span className="leaf l" />
-              <span className="leaf r" />
-              <span className="leaf mid" />
-            </div>
-            <div className="plant tall" style={{ left: '42%' }}>
-              <div className="stem" />
-              <span className="leaf l" />
-              <span className="leaf r" />
-              <span className="leaf mid" />
-              <span className="bloom" />
-            </div>
-            <div className="plant" style={{ left: '62%' }}>
-              <div className="stem" />
-              <span className="leaf l" />
-              <span className="leaf r" />
-              <span className="leaf mid" />
-            </div>
-            <div className="plant short" style={{ left: '78%' }}>
-              <div className="stem" />
-              <span className="leaf l" />
-              <span className="leaf r" />
-            </div>
-            <div className="soil" />
-          </div>
-        </motion.div>
+        <HeroBed />
       </div>
     ),
   },
@@ -915,6 +921,22 @@ const deckSlides: SlideDef[] = [
     decor: 'soft',
     className: 'soft compact',
     content: <AppPhones />,
+  },
+  {
+    id: 'end',
+    label: 'Thank you',
+    decor: 'hero',
+    className: 'hero-slide end-slide',
+    content: (
+      <div className="hero-grid">
+        <motion.div className="hero-copy" {...fade}>
+          <p className="eyebrow">StudyGarden</p>
+          <h1>Thank You</h1>
+          <p className="end-questions">Questions?</p>
+        </motion.div>
+        <HeroBed />
+      </div>
+    ),
   },
 ]
 

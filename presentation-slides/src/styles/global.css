@@ -400,6 +400,17 @@ h1, h2, h3 { letter-spacing: -0.022em; color: #1d1d1f; }
   max-width: 42ch;
   color: #1d1d1f;
 }
+.end-slide .hero-copy h1 {
+  filter: drop-shadow(0 0 0.35rem rgba(255, 244, 224, 0.95)) drop-shadow(0 0 1.2rem rgba(255, 244, 224, 0.7));
+}
+.end-questions {
+  margin: 0;
+  font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: #1d1d1f;
+}
 .hero-support {
   margin: 0;
   font-size: 1.12rem;
