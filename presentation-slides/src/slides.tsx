@@ -833,7 +833,6 @@ const deckSlides: SlideDef[] = [
             </tbody>
           </table>
         </motion.div>
-        <p className="footnote">Left out on purpose: punishing daily streaks, and rankings by study time.</p>
       </>
     ),
   },
@@ -976,7 +975,6 @@ const deckSlides: SlideDef[] = [
             <span>Ethics: pressure, streaks, and rankings.</span>
           </li>
         </motion.ul>
-        <p className="footnote">The printed poster carries a QR code for each source.</p>
       </>
     ),
   },

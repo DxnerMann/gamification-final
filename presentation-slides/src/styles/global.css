@@ -637,7 +637,7 @@ h1, h2, h3 { letter-spacing: -0.022em; color: #1d1d1f; }
 .overview-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-template-rows: 1.45fr 1.65fr 1.15fr 1.15fr 1.35fr 0.95fr;
+  grid-template-rows: 1.85fr 1.55fr 1.1fr 1.1fr 1.25fr 0.9fr;
   gap: 0.4rem;
   width: 100%;
   height: 100%;
@@ -743,12 +743,25 @@ h1, h2, h3 { letter-spacing: -0.022em; color: #1d1d1f; }
 .poster-body .thread { padding: 0.16rem 0.35rem; margin-top: 0.1rem !important; }
 .poster-body .persona-card,
 .poster-body .persona-pair { gap: 0.45rem; }
+.poster-body .flow-wrap {
+  align-items: center;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr);
+}
 .poster-body .flow-chart {
-  height: 78px;
-  max-height: 78px;
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 440 / 300;
+  max-height: none;
+  min-height: 0;
   overflow: hidden;
 }
-.poster-body .flow-chart svg { width: 100%; height: 100%; }
+.poster-body .flow-chart svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
 .poster-body .flow-copy { gap: 0.16rem; }
 .poster-body .checklist { gap: 0.12rem; }
 .poster-body .map-grid { margin-top: 0.25rem; gap: 0.18rem; }
@@ -944,6 +957,22 @@ h1, h2, h3 { letter-spacing: -0.022em; color: #1d1d1f; }
 }
 
 .flow-copy { display: grid; gap: 0.55rem; }
+#problem .flow-wrap {
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+#problem .flow-copy {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  align-content: center;
+  height: 100%;
+}
+#problem .flow-copy p {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
+}
 .flow-copy p {
   margin: 0;
   display: flex;
@@ -1041,6 +1070,10 @@ h1, h2, h3 { letter-spacing: -0.022em; color: #1d1d1f; }
 .loop-card li strong { color: var(--text); }
 .loop-card.orange { box-shadow: inset 3px 0 0 var(--orange); }
 .loop-card.lilac { box-shadow: inset 3px 0 0 var(--lilac); }
+.poster-body .loop-card.orange,
+.poster-body .loop-card.lilac { box-shadow: none; }
+.poster-body .loop-card.orange h3 { color: var(--orange); }
+.poster-body .loop-card.lilac h3 { color: var(--lilac); }
 
 .table-wrap { padding: 0.45rem 0.7rem; overflow: hidden; }
 .mech-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
@@ -1245,6 +1278,7 @@ h1, h2, h3 { letter-spacing: -0.022em; color: #1d1d1f; }
 .checklist { align-content: stretch; }
 .theory-list { align-content: stretch; }
 .section-nav { z-index: 20; }
+.section-nav[hidden] { display: none; }
 
 @media (max-width: 860px) {
   .persona-pair { grid-template-columns: 1fr; }

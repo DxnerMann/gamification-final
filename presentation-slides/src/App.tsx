@@ -145,7 +145,11 @@ export default function App() {
       <GreenhouseBackdrop shiftRef={foliageRef} />
       <LivingPlants shiftRef={vineRef} />
 
-      <nav className="section-nav" aria-label="Section navigation">
+      <nav
+        className="section-nav"
+        aria-label="Section navigation"
+        hidden={slides[current]?.id === 'overview'}
+      >
         {slides.map((s, i) => (
           <button
             key={s.id}
