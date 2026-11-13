@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from 'react'
+import { Fragment, useEffect, useRef, type ReactNode } from 'react'
 import { MotionConfig, motion } from 'framer-motion'
 import { CheckIcon } from './components/GardenDecor'
 import lukasPortrait from './assets/personas/lukas.jpg'
@@ -582,44 +582,41 @@ const deckSlides: SlideDef[] = [
     content: (
       <>
         <Kicker n="5" label="Motivators" />
-        <motion.h2 {...fade}>Color follows the person it is for</motion.h2>
+        <motion.h2 {...fade}>Same motives, different way in</motion.h2>
         <motion.p className="lede" {...fade}>
-          Orange is Lukas and overwhelm. Lilac is Sophie and boredom. Global motives sit next to
-          the persona they serve.
+          Everyone wants mastery, autonomy, curiosity, and purpose. Lukas and Sophie get stuck in
+          different places, so StudyGarden opens a different door for each.
         </motion.p>
-        <motion.div className="motivator-cols" {...fade}>
-          <div className="motivator intrinsic panel">
-            <h3>Intrinsic</h3>
-            <ul>
-              <li>
-                <WhoDot who="lukas" /> Mastery <Sep /> improve study skills and see real progress
-              </li>
-              <li>
-                <WhoDot who="both" /> Autonomy <Sep /> choose plants, methods, and pace
-              </li>
-              <li>
-                <WhoDot who="sophie" /> Curiosity <Sep /> discover new species and study methods
-              </li>
-              <li>
-                <WhoDot who="sophie" /> Purpose <Sep /> help beginners and grow together
-              </li>
-            </ul>
-          </div>
-          <div className="motivator extrinsic panel">
-            <h3>Extrinsic</h3>
-            <ul>
-              <li>
-                <WhoDot who="both" /> Collect rare plants and decorations
-              </li>
-              <li>
-                <WhoDot who="sophie" /> Recognition inside the community garden
-              </li>
-              <li>
-                <WhoDot who="lukas" /> Gardener rank: Seed → Gardener → Botanist
-              </li>
-            </ul>
-          </div>
+        <motion.div className="motive-matrix panel" {...fade}>
+          <span className="mm-corner">Intrinsic</span>
+          <span className="mm-head orange">
+            <WhoDot who="lukas" /> Lukas <Sep /> overwhelm
+          </span>
+          <span className="mm-head lilac">
+            <WhoDot who="sophie" /> Sophie <Sep /> boredom
+          </span>
+          {(
+            [
+              ['Mastery', 'getting better', 'Small seeds make progress visible every day', 'Harder species keep the challenge up'],
+              ['Autonomy', 'choosing yourself', 'He picks the next seed, not the whole exam', 'She picks methods and species'],
+              ['Curiosity', 'finding something new', 'One new species at a time, no pressure', 'Rare plants and seasons keep it fresh'],
+              ['Purpose', 'it matters', 'Exam harvest: every seed counts toward passing', 'Gifting cuttings: helping others grow'],
+            ] as const
+          ).map(([motive, meaning, lukas, sophie]) => (
+            <Fragment key={motive}>
+              <div className="mm-motive">
+                <strong>{motive}</strong>
+                <span>{meaning}</span>
+              </div>
+              <p className="mm-cell orange">{lukas}</p>
+              <p className="mm-cell lilac">{sophie}</p>
+            </Fragment>
+          ))}
         </motion.div>
+        <motion.p className="mm-extrinsic" {...fade}>
+          <strong>Extrinsic</strong> Rare plants and decorations <Sep /> Recognition in the
+          community garden <Sep /> Gardener rank: Seed → Gardener → Botanist
+        </motion.p>
         <SourceNote>Ryan &amp; Deci (2000); Pink (2009), Drive</SourceNote>
       </>
     ),
@@ -788,17 +785,17 @@ const deckSlides: SlideDef[] = [
         <motion.div className="mech-grid" {...fade}>
           {(
             [
-              ['Seeds', 'Small wins, no overwhelm', 'Split a task, finish one 10-min seed', 'lukas', 'Mastery', 'grow'],
-              ['Growth stages', 'Visible progress', 'Watch seed → sprout → bloom', 'lukas', 'Mastery', 'discover'],
-              ['Adaptive difficulty', 'Challenge grows with skill', 'Bigger plants need longer seeds', 'both', 'Mastery', 'grow'],
-              ['Species per method', 'Curiosity and variety', 'Flashcards, quizzes, summaries', 'sophie', 'Autonomy', 'discover'],
-              ['Rare plants', 'Discovery', 'Connect topics or finish a study week', 'sophie', 'Curiosity', 'discover'],
-              ['Seasonal events', 'Novelty over time', 'Exam season, new-semester season', 'sophie', 'Curiosity', 'together'],
-              ['Community garden', 'Social commitment', 'Grow a shared bed with the group', 'sophie', 'Relatedness', 'together'],
-              ['Gifting cuttings', 'Purpose, recognition', 'Share summaries, mentor beginners', 'sophie', 'Purpose', 'together'],
-              ['Gardener rank', 'A long-term goal', 'Seed → Gardener → Botanist', 'lukas', 'Mastery', 'grow'],
+              ['Seeds', 'Small wins, no overwhelm', 'Split a task, finish one 10-min seed', 'lukas', ['Mastery'], 'grow'],
+              ['Growth stages / Pick your next seed', 'Visible progress, own choice', 'Watch it bloom, choose what comes next', 'lukas', ['Mastery', 'Autonomy'], 'discover'],
+              ['Adaptive difficulty', 'Challenge grows with skill', 'Bigger plants need longer seeds', 'both', ['Mastery'], 'grow'],
+              ['Species per method', 'Curiosity and variety', 'Flashcards, quizzes, summaries', 'sophie', ['Autonomy'], 'discover'],
+              ['Rare plants', 'Discovery', 'Connect topics or finish a study week', 'sophie', ['Curiosity'], 'discover'],
+              ['Seasonal events', 'Novelty over time', 'Exam season, new-semester season', 'sophie', ['Curiosity'], 'together'],
+              ['Community garden', 'Social commitment', 'Grow a shared bed with the group', 'sophie', ['Relatedness'], 'together'],
+              ['Gifting cuttings', 'Purpose, recognition', 'Share summaries, mentor beginners', 'sophie', ['Purpose'], 'together'],
+              ['Gardener rank / Exam harvest', 'A long-term goal that counts', 'Seed → Botanist, the exam bed fills up', 'lukas', ['Mastery', 'Purpose'], 'grow'],
             ] as const
-          ).map(([title, dynamic, activity, who, motive, plant]) => (
+          ).map(([title, dynamic, activity, who, motives, plant]) => (
             <article key={title} className={`mech-card ${who === 'lukas' ? 'orange' : who === 'sophie' ? 'lilac' : 'both'}`}>
               <span className="mech-icon">
                 <GardenPot kind={plant} />
@@ -808,7 +805,13 @@ const deckSlides: SlideDef[] = [
                 <p className="dynamic">{dynamic}</p>
                 <p className="activity">{activity}</p>
                 <p className="mech-for">
-                  <WhoDot who={who} /> {motive}
+                  <WhoDot who={who} />{' '}
+                  {motives.map((motive, i) => (
+                    <Fragment key={motive}>
+                      {i > 0 && <Sep />}
+                      {motive}
+                    </Fragment>
+                  ))}
                 </p>
               </div>
             </article>

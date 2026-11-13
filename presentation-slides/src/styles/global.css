@@ -533,6 +533,72 @@ h1, h2, h3 { letter-spacing: -0.022em; color: #1d1d1f; }
 .persona h3 { margin: 0; font-size: 1.1rem; }
 .persona p { margin: 0; color: var(--text-secondary); font-size: 0.9rem; }
 
+.motive-matrix {
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.62fr) 1fr 1fr;
+  column-gap: 0.75rem;
+  row-gap: 0.5rem;
+  align-items: stretch;
+}
+.mm-corner {
+  align-self: end;
+  padding-bottom: 0.4rem;
+  font-size: 0.74rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+}
+.mm-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 650;
+}
+.mm-head .dot { margin-top: 0; }
+.mm-head.orange { background: rgba(255, 149, 0, 0.16); color: var(--orange-deep); }
+.mm-head.lilac { background: rgba(175, 82, 222, 0.14); color: var(--lilac-deep); }
+.mm-motive {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.05rem;
+}
+.mm-motive strong {
+  font-size: 1.08rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: var(--green-deep);
+}
+.mm-motive span { font-size: 0.82rem; color: rgba(60, 60, 67, 0.78); }
+.mm-cell {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  padding: 0.55rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.98rem;
+  line-height: 1.32;
+  color: var(--text);
+}
+.mm-cell.orange { background: rgba(255, 149, 0, 0.08); box-shadow: inset 3px 0 0 var(--orange); }
+.mm-cell.lilac { background: rgba(175, 82, 222, 0.07); box-shadow: inset 3px 0 0 var(--lilac); }
+.mm-extrinsic {
+  margin: 0.55rem 0 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+.mm-extrinsic strong {
+  margin-right: 0.55rem;
+  font-size: 0.74rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bark);
+}
 .motivator-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
 @media (max-width: 700px) { .motivator-cols { grid-template-columns: 1fr; } }
 .motivator {
@@ -888,6 +954,7 @@ h1, h2, h3 { letter-spacing: -0.022em; color: #1d1d1f; }
   width: 40px;
   height: 42px;
 }
+.poster-body .mech-copy h3 { font-size: 0.66rem; }
 .poster-body .mech-copy .dynamic,
 .poster-body .mech-copy .activity,
 .poster-body .mech-for { font-size: 0.5rem; margin-top: 0; }
@@ -902,6 +969,24 @@ h1, h2, h3 { letter-spacing: -0.022em; color: #1d1d1f; }
 .poster-body .ethics-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .poster-body .ethics-wide { grid-column: auto; }
 .poster-body .motivator ul { gap: 0.12rem; }
+.poster-body .motive-matrix {
+  grid-template-columns: minmax(3.6rem, 0.55fr) 1fr 1fr;
+  column-gap: 0.35rem;
+  row-gap: 0.14rem;
+}
+.poster-body .mm-corner { padding-bottom: 0; font-size: 0.5rem; }
+.poster-body .mm-head { padding: 0; background: none; font-size: 0.6rem; gap: 0.2rem; }
+.poster-body .mm-motive strong { font-size: 0.62rem; }
+.poster-body .mm-motive span { font-size: 0.5rem; }
+.poster-body .mm-cell {
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  font-size: 0.56rem;
+  line-height: 1.22;
+}
+.poster-body .mm-extrinsic { margin-top: 0.2rem; font-size: 0.54rem; }
+.poster-body .mm-extrinsic strong { font-size: 0.48rem; margin-right: 0.25rem; }
 .poster-body .stage ul,
 .poster-body .loop-card ol { gap: 0.04rem; }
 .poster-body .stage-badge { margin-bottom: 0.15rem; font-size: 0.56rem; }
