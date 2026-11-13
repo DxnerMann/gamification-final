@@ -515,6 +515,7 @@ const deckSlides: SlideDef[] = [
           species, so the garden never looks the same.
         </motion.p>
         <motion.div className="pipeline" {...fade}>
+          <span className="pipe-seed" aria-hidden="true" />
           <div className="pipe-step">
             <h3>Seeds</h3>
             <p>10–15 min micro-tasks from a huge exam.</p>
@@ -584,8 +585,7 @@ const deckSlides: SlideDef[] = [
         <Kicker n="5" label="Motivators" />
         <motion.h2 {...fade}>Same motives, different way in</motion.h2>
         <motion.p className="lede" {...fade}>
-          Everyone wants mastery, autonomy, curiosity, and purpose. Lukas and Sophie get stuck in
-          different places, so StudyGarden opens a different door for each.
+          Lukas and Sophie get stuck in different places, so StudyGarden opens a different door for each.
         </motion.p>
         <motion.div className="motive-matrix panel" {...fade}>
           <span className="mm-corner">Intrinsic</span>
@@ -936,6 +936,21 @@ const deckSlides: SlideDef[] = [
     className: 'hero-slide end-slide',
     content: (
       <div className="hero-grid">
+        <div className="end-drift" aria-hidden="true">
+          {(
+            [
+              [6, 0, 11, 'leaf'], [15, 4.2, 13, 'seed'], [24, 1.6, 10, 'leaf'], [33, 6.8, 12, 'petal'],
+              [44, 2.9, 14, 'seed'], [55, 0.8, 11, 'leaf'], [63, 5.4, 13, 'petal'], [72, 3.3, 10, 'leaf'],
+              [81, 7.6, 12, 'seed'], [90, 1.9, 14, 'leaf'], [96, 5.9, 11, 'petal'], [38, 8.8, 13, 'leaf'],
+            ] as const
+          ).map(([left, delay, duration, kind], i) => (
+            <span
+              key={i}
+              className={kind}
+              style={{ left: `${left}%`, animationDelay: `-${delay}s`, animationDuration: `${duration}s` }}
+            />
+          ))}
+        </div>
         <motion.div className="hero-copy" {...fade}>
           <p className="eyebrow">StudyGarden</p>
           <h1>Thank You</h1>
