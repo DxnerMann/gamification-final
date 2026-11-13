@@ -145,6 +145,18 @@ function Bars({
   )
 }
 
+const overviewSources: { n: number; text: string; slides: string[] }[] = [
+  { n: 1, text: 'Csikszentmihalyi (1990), Flow', slides: ['problem', 'goal', 'concept', 'journey', 'tech'] },
+  { n: 2, text: 'Bartle, Player Types', slides: ['personas'] },
+  { n: 3, text: 'Häusel, Limbic Map', slides: ['personas'] },
+  { n: 4, text: 'Ryan & Deci (2000)', slides: ['motivators', 'fun', 'loop', 'mechanics'] },
+  { n: 5, text: 'Pink (2009), Drive', slides: ['motivators', 'fun', 'loop', 'mechanics'] },
+]
+
+function citesFor(id: string) {
+  return overviewSources.filter((source) => source.slides.includes(id)).map((source) => source.n)
+}
+
 const posterMeta: Record<string, { n: string; label: string; col: string; row: number }> = {
   problem: { n: '1', label: 'Problem', col: '1 / span 6', row: 1 },
   goal: { n: '2', label: 'Goal', col: '7 / span 6', row: 1 },
@@ -161,9 +173,11 @@ const posterMeta: Record<string, { n: string; label: string; col: string; row: n
 
 function PosterBlock({
   meta,
+  cites,
   children,
 }: {
   meta: { n: string; label: string; col: string; row: number }
+  cites: number[]
   children: ReactNode
 }) {
   const fitRef = useRef<HTMLDivElement>(null)
@@ -216,6 +230,13 @@ function PosterBlock({
       <header className="poster-kicker">
         <span className="poster-num">{meta.n}</span>
         <span className="poster-label">{meta.label}</span>
+        {cites.length > 0 && (
+          <span className="poster-cites">
+            {cites.map((n) => (
+              <span key={n}>[{n}]</span>
+            ))}
+          </span>
+        )}
       </header>
       <div className="poster-fit" ref={fitRef}>
         <div className="poster-body" ref={bodyRef}>
@@ -229,14 +250,24 @@ function PosterBlock({
 function SlideOverview({ items }: { items: SlideDef[] }) {
   return (
     <MotionConfig reducedMotion="always">
-      <div className="overview-grid" aria-label="Everything on one page">
-        {items
-          .filter((slide) => !['hero', 'app', 'end'].includes(slide.id))
-          .map((slide) => (
-            <PosterBlock key={slide.id} meta={posterMeta[slide.id]}>
-              {slide.content}
-            </PosterBlock>
+      <div className="overview-wrap">
+        <div className="overview-grid" aria-label="Everything on one page">
+          {items
+            .filter((slide) => !['hero', 'app', 'end'].includes(slide.id))
+            .map((slide) => (
+              <PosterBlock key={slide.id} meta={posterMeta[slide.id]} cites={citesFor(slide.id)}>
+                {slide.content}
+              </PosterBlock>
+            ))}
+        </div>
+        <p className="overview-sources">
+          {overviewSources.map((source) => (
+            <span key={source.n}>
+              <b>[{source.n}]</b>
+              {source.text}
+            </span>
           ))}
+        </p>
       </div>
     </MotionConfig>
   )
