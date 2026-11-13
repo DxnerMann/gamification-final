@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, type ReactNode } from 'react'
+import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react'
 import { MotionConfig, motion } from 'framer-motion'
 import { CheckIcon } from './components/GardenDecor'
 import lukasPortrait from './assets/personas/lukas.jpg'
@@ -89,15 +89,56 @@ function Bars({
   rows: { label: string; value: number }[]
   tone: 'orange' | 'lilac'
 }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [progress, setProgress] = useState(0)
+  const signature = rows.map((row) => `${row.label}:${row.value}`).join('|')
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduce || el.closest('.poster-body')) {
+      setProgress(1)
+      return
+    }
+    let frame = 0
+    const play = () => {
+      const start = performance.now()
+      const tick = (now: number) => {
+        const t = Math.min(1, (now - start) / 1100)
+        setProgress(1 - (1 - t) ** 3)
+        if (t < 1) frame = requestAnimationFrame(tick)
+      }
+      cancelAnimationFrame(frame)
+      setProgress(0)
+      frame = requestAnimationFrame(tick)
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) play()
+        else {
+          cancelAnimationFrame(frame)
+          setProgress(0)
+        }
+      },
+      { threshold: 0.55 },
+    )
+    observer.observe(el)
+    return () => {
+      observer.disconnect()
+      cancelAnimationFrame(frame)
+    }
+  }, [signature])
+
   return (
-    <div className="bars" aria-label="Bartle player-type mix">
+    <div className="bars" ref={ref} aria-label="Bartle player-type mix">
       {rows.map((row) => (
         <div className="bar-row" key={row.label}>
           <span>{row.label}</span>
           <div className="bar-track">
-            <div className={`bar-fill ${tone}`} style={{ width: `${row.value}%` }} />
+            <div className={`bar-fill ${tone}`} style={{ width: `${row.value * progress}%` }} />
           </div>
-          <strong>{row.value}%</strong>
+          <strong>{Math.round(row.value * progress)}%</strong>
         </div>
       ))}
     </div>

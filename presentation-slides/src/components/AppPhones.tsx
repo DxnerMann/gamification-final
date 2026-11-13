@@ -36,7 +36,6 @@ const guide: Record<
     mechanics: string[]
     motives: string[]
     who: 'lukas' | 'sophie'
-    tryIt: string
   }
 > = {
   plan: {
@@ -46,7 +45,6 @@ const guide: Record<
     mechanics: ['AI Seed Assistant', 'Seeds', 'Pick your next seed', 'LMS and calendar'],
     motives: ['Mastery', 'Autonomy'],
     who: 'lukas',
-    tryIt: 'Tap “Split into seeds”, then pick one.',
   },
   grow: {
     step: 'Grow',
@@ -55,7 +53,6 @@ const guide: Record<
     mechanics: ['Seeds', 'Species per method', 'Adaptive difficulty'],
     motives: ['Mastery', 'Curiosity'],
     who: 'lukas',
-    tryIt: 'Start the timer, or ask the assistant something.',
   },
   garden: {
     step: 'Garden',
@@ -64,7 +61,6 @@ const guide: Record<
     mechanics: ['Growth stages', 'Exam harvest', 'Gardener rank'],
     motives: ['Mastery', 'Purpose'],
     who: 'lukas',
-    tryIt: 'Wake the resting plant, or tap a plant to start its seed.',
   },
   together: {
     step: 'Together',
@@ -73,7 +69,6 @@ const guide: Record<
     mechanics: ['Community garden', 'Gifting cuttings', 'Seasonal events', 'Rare plants'],
     motives: ['Relatedness', 'Purpose', 'Curiosity'],
     who: 'sophie',
-    tryIt: 'Switch between gardeners and gift a cutting.',
   },
 }
 
@@ -492,10 +487,6 @@ export function AppPhones() {
                   ))}
                 </dd>
               </dl>
-              <p className="guide-try">
-                <span>Try it</span>
-                {info.tryIt}
-              </p>
             </motion.article>
           </AnimatePresence>
         </div>

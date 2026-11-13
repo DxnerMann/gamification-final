@@ -706,7 +706,6 @@ h1, h2, h3 { letter-spacing: -0.022em; color: #1d1d1f; }
 .mm-cell.orange { background: rgba(255, 149, 0, 0.08); box-shadow: inset 3px 0 0 var(--orange); }
 .mm-cell.lilac { background: rgba(175, 82, 222, 0.07); box-shadow: inset 3px 0 0 var(--lilac); }
 .mm-extrinsic {
-  align-self: flex-start;
   margin: 0.55rem 0 0;
   padding: 0.55rem 0.9rem;
   border-radius: var(--radius-sm);
@@ -2455,8 +2454,7 @@ h1, h2, h3 { letter-spacing: -0.022em; color: #1d1d1f; }
   gap: 0.55rem 1rem;
   align-items: baseline;
 }
-.guide-meta dt,
-.guide-try span {
+.guide-meta dt {
   font-size: 0.72rem;
   font-weight: 650;
   letter-spacing: 0.08em;
@@ -2477,18 +2475,6 @@ h1, h2, h3 { letter-spacing: -0.022em; color: #1d1d1f; }
   border-color: rgba(36, 138, 61, 0.24);
   color: var(--green-deep);
 }
-.guide-try {
-  margin: 1.05rem 0 0;
-  padding-top: 0.85rem;
-  border-top: 1px solid rgba(139, 107, 69, 0.18);
-  display: flex;
-  align-items: baseline;
-  gap: 0.7rem;
-  font-size: 0.98rem;
-  color: var(--text);
-}
-.guide-try span { color: #3f6434; flex: none; }
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
